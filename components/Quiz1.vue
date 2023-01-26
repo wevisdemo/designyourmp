@@ -1,0 +1,278 @@
+<template>
+  <div>
+    <div
+      class="
+        h-100vh
+        bg-main
+        intro
+        d-flex
+        justify-content-center
+        align-items-center
+      "
+    >
+      <div class="content text-center px-3">
+        <h4 class="header-4 text-white">
+          บอกหน่อย.. <br />
+          ส.ส. ที่ถูกใจคุณและน่าจะเลือกคนนี้ควรมี
+        </h4>
+        <h2 class="header-2 font-weight-bold blue">คุณสมบัติพื้นฐาน</h2>
+        <h4 class="header-4 text-white">แบบไหน?</h4>
+      </div>
+      <div class="text-center go_down">
+        <img :src="go_down" alt="go_down" />
+      </div>
+    </div>
+    <div class="min-h-screen position-relative text-center">
+      <div class="d-flex menu-box justify-content-center flex-wrap">
+        <div
+          v-for="(item, i) in menu"
+          :key="i"
+          class="menu"
+          :class="{ active: menu_active == item }"
+        >
+          <p class="header-11 m-0">{{ item }}</p>
+        </div>
+      </div>
+      <b-row class="h-100" no-gutters>
+        <b-col
+          lg="6"
+          class="
+            bg-black-2
+            d-flex
+            justify-content-center
+            align-items-center
+            text-white
+          "
+        >
+          <div>
+            <p class="header-10">ส.ส. ในสภา<br />ที่ตรงกับความต้องการ</p>
+            <div class="people-box d-flex flex-wrap my-3 my-lg-5">
+              <div v-for="item in 500" class="people"></div>
+            </div>
+
+            <p class="header-11">
+              ส.ส. ในสภาชุดที่ 25 ตั้งแต่ 10 ก.ค. 2562 - 17 ตุลาคม 2565
+            </p>
+          </div>
+        </b-col>
+        <b-col
+          lg="6"
+          class="bg-black d-flex justify-content-center align-items-center"
+          ><div>
+            <p class="header-10 text-white mb-3">
+              ออกแบบ ส.ส. ตามที่คุณต้องการ
+            </p>
+            <p class="header-7 font-weight-bold blue">
+              อายุของ ส.ส. ควรอยู่ช่วงไหน?
+            </p>
+            <div v-for="item in 5" class="choice mb-2">
+              <p class="header-8 m-0">อายุ 18-30</p>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </div>
+    <div class="min-h-screen bg-main result">
+      <div class="result-box text-center">
+        <h4 class="header-4 font-weight-bold kondolar">ยินดีด้วย!</h4>
+        <h4 class="header-5 font-weight-bold kondolar">
+          คุณสมบัติที่คุณเลือกใกล้เคียงกับ ส.ส. ที่มีอยู่ ดังนี้!
+        </h4>
+        <p class="header-11">
+          *ข้อมูลนำมาวิเคราะห์คือ ส.ส. ในสภาชุดที่ 25 และในอนาคตอาจมีหรือไม่มี
+          ตัวเลือกอื่นๆ ที่ใกล้เคียงกับคุณสมบัติของคุณกว่านี้ก็ได้
+        </p>
+        <b-row class="result-box-content">
+          <b-col lg="6">1</b-col>
+          <b-col lg="6">2</b-col>
+        </b-row>
+        <hr />
+        <p class="header-11">แชร์ไปให้เพื่อนของคุณเล่น</p>
+        <div class="share-box text-center">
+          <div class="d-flex justify-content-center align-items-center">
+            <p class="header-11 m-0">Share</p>
+
+            <ShareNetwork
+              network="facebook"
+              title=""
+              url="http://localbudgeting.actai.co/"
+              class="share-btn pointer text-1 mx-2"
+            >
+              <img :src="facebook" alt="facebook" />
+            </ShareNetwork>
+
+            <ShareNetwork
+              network="twitter"
+              title=""
+              url="http://localbudgeting.actai.co/"
+              class="share-btn pointer text-1 mx-2"
+            >
+              <img :src="twitter" alt="twitter" />
+            </ShareNetwork>
+            <ShareNetwork
+              network="line"
+              title=""
+              url="http://localbudgeting.actai.co/"
+              class="share-btn pointer text-1 mx-2"
+            >
+              <img :src="line" alt="line" />
+            </ShareNetwork>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Quiz1",
+  data() {
+    return {
+      choice_1: require("~/assets/images/choice_1.svg"),
+      go_down: require("~/assets/images/go_down.svg"),
+      facebook: require("~/assets/images/facebook.svg"),
+      line: require("~/assets/images/line.svg"),
+      twitter: require("~/assets/images/twitter.svg"),
+      menu: [
+        "อายุ",
+        "การศึกษา",
+        "สาขาที่จบ",
+        "อาชีพเดิม",
+        "เครือข่าย",
+        "ยึดโยงพื้นที่",
+      ],
+      menu_active: "อายุ",
+    };
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.bg-main {
+  background: #000;
+}
+
+.intro {
+  background: #000;
+  position: relative;
+}
+
+.content {
+  position: relative;
+  max-width: 790px;
+}
+
+.intro:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  background-image: url("../assets/images/choice_1.svg");
+  background-size: 850px;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  @media #{$mq-mini-mobile} {
+    background-size: 300px;
+  }
+}
+
+.result {
+  background-image: url("../assets/images/papershoot.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  padding: 5%;
+}
+.go_down {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+}
+
+.menu-box {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  color: #ffffff;
+  top: 60px;
+
+  @media #{$mq-lg} {
+    position: unset;
+    background-color: #151515;
+  }
+
+  .menu {
+    cursor: pointer;
+    padding: 5px;
+
+    p {
+      opacity: 0.7;
+    }
+  }
+}
+
+.active {
+  border-bottom: 3px solid #ffffff;
+}
+
+.people-box {
+  max-width: 320px;
+  margin: auto;
+
+  @media #{$mq-mini-mobile} {
+    max-width: 230px;
+  }
+}
+
+.people {
+  width: 12px;
+  height: 12px;
+  background: #51b4fa;
+  border-radius: 50%;
+  margin: 2px;
+
+  @media #{$mq-mini-mobile} {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+.choice {
+  max-width: 216px;
+  margin: auto;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.choice:hover {
+  background: #51b4fa;
+}
+
+.result-box {
+  background: #ffffff;
+  border-radius: 30px;
+  width: 100%;
+  height: 100%;
+  padding: 36px;
+
+  .result-box-content {
+    max-width: 815px;
+    margin: auto;
+  }
+
+  hr {
+    max-width: 615px;
+    border-top: 1px dashed #000000;
+  }
+}
+</style>
