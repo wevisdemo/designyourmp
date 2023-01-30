@@ -22,20 +22,112 @@
         <img :src="go_down" alt="go_down" />
       </div>
     </div>
+    <div
+      class="
+        min-h-screen
+        bg-main
+        d-flex
+        justify-content-center
+        align-items-center
+      "
+    >
+      <div class="content px-3 mx-auto">
+        <p class="header-7 font-weight-bold green-2 m-0 text-center">
+          ทักษะและลักษณะนิสัยที่จะพิจารณาเป็นพิเศษ
+        </p>
+        <p class="header-11 text-white text-center">
+          (เรียงลำดับตามความสำคัญจากมากไปน้อย)
+        </p>
+
+        <draggable
+          :list="list"
+          :disabled="!enabled"
+          class="list-group"
+          ghost-class="ghost"
+          :move="checkMove"
+          @start="dragging = true"
+          @end="dragging = false"
+        >
+          <div
+            class="list-group-item header-9 mb-2"
+            v-for="(element, i) in list"
+            :key="element.name"
+          >
+            <img
+              :src="
+                require('~/assets/images/quiz_part2/icon_illus_' +
+                  (i + 1) +
+                  '.svg')
+              "
+              alt=""
+            />
+            {{ element.name }}
+          </div>
+        </draggable>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import draggable from "vuedraggable";
 export default {
   name: "Quiz1",
+  components: {
+    draggable,
+  },
   data() {
     return {
       choice_2: require("~/assets/images/choice_2.svg"),
       go_down: require("~/assets/images/go_down.svg"),
+      enabled: true,
+      list: [
+        { name: "มีภาวะผู้นำ", id: 1 },
+        { name: "มีทักษะการสื่อสารที่ดี", id: 2 },
+        { name: "มีมนุษยสัมพันธ์ดี", id: 3 },
+        { name: "มีความซื่อสัตย์ ไม่โกง", id: 4 },
+        { name: "มีความรับผิดชอบต่อประชาชน", id: 5 },
+        { name: "พูดจริง ทำจริง", id: 6 },
+        { name: "ความคิดทันต่อการเปลี่ยนแปลง", id: 7 },
+        { name: "พูดภาษาต่างประเทศได้", id: 8 },
+        { name: "การคิดเชิงวิเคราะห์และเลือกตัดสินใจ", id: 9 },
+        { name: "ความคิดสร้างสรรค์", id: 10 },
+      ],
+      dragging: false,
     };
   },
 };
 </script>
+
+<style lang="scss">
+.list-group {
+  max-width: 415px;
+  margin: auto;
+}
+
+.list-group-item {
+  border-top-right-radius: unset !important;
+  border-bottom-right-radius: unset !important;
+  border-bottom-left-radius: inherit;
+  border-top-left-radius: inherit !important;
+  cursor: move;
+  padding: 10px 20px;
+
+  @media #{$mq-mini-mobile} {
+    background-size: 300px;
+    padding: 5px 7px;
+    font-size: 14px !important;
+  }
+
+  img {
+    width: 34px;
+
+    @media #{$mq-mini-mobile} {
+      width: 25px;
+    }
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .bg-main {

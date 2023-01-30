@@ -8,9 +8,10 @@
         d-flex
         justify-content-center
         align-items-center
+        px-3
       "
     >
-      <div class="content text-center px-3">
+      <div class="content text-center">
         <h4 class="header-4 text-white">
           บอกหน่อย.. <br />
           ส.ส. ที่ถูกใจคุณและน่าจะเลือกคนนี้ควรมี
@@ -29,11 +30,12 @@
           :key="i"
           class="menu"
           :class="{ active: menu_active == item }"
+          @click="selectMenu(item, i)"
         >
           <p class="header-11 m-0">{{ item }}</p>
         </div>
       </div>
-      <b-row class="h-100" no-gutters>
+      <b-row class="min-h-screen" no-gutters>
         <b-col
           lg="6"
           class="
@@ -58,22 +60,25 @@
         <b-col
           lg="6"
           class="bg-black d-flex justify-content-center align-items-center"
-          ><div>
+          ><div class="question-box">
             <p class="header-10 text-white mb-3">
               ออกแบบ ส.ส. ตามที่คุณต้องการ
             </p>
-            <p class="header-7 font-weight-bold blue">
-              อายุของ ส.ส. ควรอยู่ช่วงไหน?
-            </p>
-            <div v-for="item in 5" class="choice mb-2">
-              <p class="header-8 m-0">อายุ 18-30</p>
-            </div>
+            <template v-if="current_quiz != null">
+              <p class="header-7 font-weight-bold blue">
+                {{ current_quiz.question }}
+              </p>
+
+              <div v-for="item in current_quiz.ans" class="choice mb-2">
+                <p class="header-8 m-0">{{ item }}</p>
+              </div></template
+            >
           </div>
         </b-col>
       </b-row>
     </div>
     <div class="min-h-screen bg-main result">
-      <div class="result-box text-center">
+      <div class="result-box text-center min-h-screen">
         <h4 class="header-4 font-weight-bold kondolar">ยินดีด้วย!</h4>
         <h4 class="header-5 font-weight-bold kondolar">
           คุณสมบัติที่คุณเลือกใกล้เคียงกับ ส.ส. ที่มีอยู่ ดังนี้!
@@ -143,7 +148,84 @@ export default {
         "ยึดโยงพื้นที่",
       ],
       menu_active: "อายุ",
+      current_quiz: null,
+      quiz: [
+        {
+          id: 1,
+          question: "อายุของ ส.ส. ควรอยู่ช่วงไหน?",
+          ans: [
+            "อายุ 18-30",
+            "อายุ 31-40",
+            "อายุ 41-50",
+            "อายุ 51-60 ขึ้นไป",
+            "ไม่กำหนดอายุ",
+          ],
+          current_ans: "",
+        },
+        {
+          id: 2,
+          question: "ต้องมีระดับการศึกษาควรอยู่ในระดับไหน?",
+          ans: [
+            "ต่ำกว่าปริญญาตรี",
+            "ปริญญาตรี",
+            "ปริญญาโท",
+            "ปริญญาเอก",
+            "ไม่กำหนด",
+          ],
+          current_ans: "",
+        },
+        {
+          id: 3,
+          question: "จบการศึกษาอะไร?",
+          ans: [
+            "เกี่ยวกับกฎหมาย",
+            "เกี่ยวกับการเมือง",
+            "เกี่ยวกับบริหารงานภาครัฐ",
+            "เกี่ยวกับการบริหารธุรกิจ",
+            "เกี่ยวกับการศึกษา",
+            "อื่นๆ",
+            "จบสาขาใดมาก็ได้",
+          ],
+          current_ans: "",
+        },
+        {
+          id: 4,
+          question: "อาชีพเดิมต้องทำงานแนวไหนมา?",
+          ans: [
+            "ทำงานสายกฎหมาย",
+            "ทำงานสายการเมือง",
+            "ทำงานสายบริหารงานภาครัฐ",
+            "นักธุรกิจ",
+            "นักวิชาการ",
+            "ทำงานสาขาอื่นๆ",
+            "ทำงานสายใดมาก็ได้",
+          ],
+          current_ans: "",
+        },
+        {
+          id: 5,
+          question: "ควรจะต้องมีเครือข่ายทางการเมืองไหม?",
+          ans: ["ควร", "ไม่ควร", "ไม่จำเป็น"],
+          current_ans: "",
+        },
+        {
+          id: 6,
+          question:
+            "ส.ส. เขต ควรจะต้องเรียน หรืออาศัยอยู่หรือทำงาน ในจังหวัดที่ลงสมัครไหม?",
+          ans: ["ควร", "ไม่ควร", "ไม่จำเป็น"],
+          current_ans: "",
+        },
+      ],
     };
+  },
+  mounted() {
+    this.current_quiz = this.quiz[0];
+  },
+  methods: {
+    selectMenu(menu, index) {
+      this.menu_active = menu;
+      this.current_quiz = this.quiz[index];
+    },
   },
 };
 </script>
@@ -188,6 +270,11 @@ export default {
   background-repeat: no-repeat;
   background-size: 100%;
   padding: 5%;
+
+  @media #{$mq-lg} {
+    padding: 10px;
+    background-image: unset;
+  }
 }
 .go_down {
   position: absolute;
@@ -244,7 +331,8 @@ export default {
 }
 
 .choice {
-  max-width: 216px;
+  // max-width: 216px;
+  width: 100%;
   margin: auto;
   background: #ffffff;
   border: 1px solid #000000;
@@ -265,6 +353,10 @@ export default {
   height: 100%;
   padding: 36px;
 
+  @media #{$mq-lg} {
+    // min-height: 100vh;
+  }
+
   .result-box-content {
     max-width: 815px;
     margin: auto;
@@ -274,5 +366,9 @@ export default {
     max-width: 615px;
     border-top: 1px dashed #000000;
   }
+}
+
+.question-box {
+  max-width: 385px;
 }
 </style>

@@ -5,11 +5,11 @@
       <WvNavButton :dark="true">Result</WvNavButton>
       <WvNavButton :dark="true">About</WvNavButton>
     </WvNavbar>
-    <Intro />
-    <Quiz1 /> 
+    <!-- <Intro /> 
+    <Quiz1 />-->
     <Quiz2 />
-    <Ending />
-    <WvFooter :dark="true" />
+    <!-- <Ending /> -->
+    <!-- <WvFooter :dark="true" /> -->
     <!-- <WvCookieConsent
       policyUrl="https://punchup.world"
       :cookieOptions="cookieOptions"

@@ -7,6 +7,8 @@
         d-flex
         justify-content-center
         align-items-center
+        px-3
+        py-5
       "
     >
       <div>
@@ -127,6 +129,45 @@
         </h5>
 
         <hr class="my-5" />
+
+        <p class="header-8 mt-3">
+          แชร์ชวนเพื่อนมาออกแบบ"ผู้แทน" <br />
+          แบบไหนที่อยากเห็นกัน
+        </p>
+        <p class="header-7 font-weight-bold mt-3">
+          เพื่อนจะออกแบบเหมือนคุณหรือต่าง?
+        </p>
+        <div class="share-box text-center">
+          <div class="d-flex justify-content-center align-items-center">
+            <p class="header-11 m-0">Share</p>
+
+            <ShareNetwork
+              network="facebook"
+              title=""
+              url="http://localbudgeting.actai.co/"
+              class="share-btn pointer text-1 mx-2"
+            >
+              <img :src="facebook" alt="facebook" />
+            </ShareNetwork>
+
+            <ShareNetwork
+              network="twitter"
+              title=""
+              url="http://localbudgeting.actai.co/"
+              class="share-btn pointer text-1 mx-2"
+            >
+              <img :src="twitter" alt="twitter" />
+            </ShareNetwork>
+            <ShareNetwork
+              network="line"
+              title=""
+              url="http://localbudgeting.actai.co/"
+              class="share-btn pointer text-1 mx-2"
+            >
+              <img :src="line" alt="line" />
+            </ShareNetwork>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -145,6 +186,9 @@ export default {
       choice_1: require("~/assets/images/choice_1.svg"),
       choice_2: require("~/assets/images/choice_2.svg"),
       go_down: require("~/assets/images/go_down.svg"),
+      facebook: require("~/assets/images/facebook.svg"),
+      line: require("~/assets/images/line.svg"),
+      twitter: require("~/assets/images/twitter.svg"),
     };
   },
 };
