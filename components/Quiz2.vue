@@ -49,19 +49,26 @@
           @end="dragging = false"
         >
           <div
-            class="list-group-item header-9 mb-2"
+            class="list-group-item header-9 mb-2 d-flex justify-content-between"
             v-for="(element, i) in list"
             :key="element.name"
           >
-            <img
-              :src="
-                require('~/assets/images/quiz_part2/icon_illus_' +
-                  (i + 1) +
-                  '.svg')
-              "
-              alt=""
-            />
-            {{ element.name }}
+            <div class="content">
+              <img
+                :src="
+                  require('~/assets/images/quiz_part2/icon_illus_' +
+                    (i + 1) +
+                    '.svg')
+                "
+                alt=""
+              />
+              {{ element.name }}
+            </div>
+            <div class="img-box">
+              <div>
+                <img :src="drag" alt="" />
+              </div>
+            </div>
           </div>
         </draggable>
       </div>
@@ -80,6 +87,7 @@ export default {
     return {
       choice_2: require("~/assets/images/choice_2.svg"),
       go_down: require("~/assets/images/go_down.svg"),
+      drag: require("~/assets/images/drag.svg"),
       enabled: true,
       list: [
         { name: "มีภาวะผู้นำ", id: 1 },
@@ -101,21 +109,32 @@ export default {
 
 <style lang="scss">
 .list-group {
-  max-width: 415px;
+  max-width: 450px;
   margin: auto;
 }
 
 .list-group-item {
-  border-top-right-radius: unset !important;
-  border-bottom-right-radius: unset !important;
-  border-bottom-left-radius: inherit;
-  border-top-left-radius: inherit !important;
+  border-radius: inherit !important;
   cursor: move;
-  padding: 10px 20px;
+  padding: 0;
+  border: 1px solid #000000;
+
+  .content {
+    padding: 10px 20px;
+  }
+
+  .img-box {
+    padding: 10px 5px;
+    border-left: 1px solid #000000;
+  }
 
   @media #{$mq-mini-mobile} {
     background-size: 300px;
-    padding: 5px 7px;
+
+    .content,
+    .img-box {
+      padding: 5px 7px;
+    }
     font-size: 14px !important;
   }
 
@@ -123,7 +142,7 @@ export default {
     width: 34px;
 
     @media #{$mq-mini-mobile} {
-      width: 25px;
+      width: 22px;
     }
   }
 }

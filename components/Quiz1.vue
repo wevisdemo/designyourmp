@@ -49,7 +49,12 @@
           <div>
             <p class="header-10">ส.ส. ในสภา<br />ที่ตรงกับความต้องการ</p>
             <div class="people-box d-flex flex-wrap my-3 my-lg-5">
-              <div v-for="item in 500" class="people"></div>
+              <div v-for="item in data" class="people"></div>
+              <div
+                v-for="item in fade_ppl"
+                class="people faded"
+                v-if="fade_ppl != 0"
+              ></div>
             </div>
 
             <p class="header-11">
@@ -69,7 +74,11 @@
                 {{ current_quiz.question }}
               </p>
 
-              <div v-for="item in current_quiz.ans" class="choice mb-2">
+              <div
+                v-for="item in current_quiz.ans"
+                class="choice mb-2"
+                @click="answer(item)"
+              >
                 <p class="header-8 m-0">{{ item }}</p>
               </div></template
             >
@@ -130,6 +139,8 @@
 </template>
 
 <script>
+import * as mp_data from "~/assets/data/mp_pro.json";
+
 export default {
   name: "Quiz1",
   data() {
@@ -216,6 +227,8 @@ export default {
           current_ans: "",
         },
       ],
+      data: mp_data.default,
+      fade_ppl: 0,
     };
   },
   mounted() {
@@ -225,6 +238,81 @@ export default {
     selectMenu(menu, index) {
       this.menu_active = menu;
       this.current_quiz = this.quiz[index];
+    },
+    answer(ans) {
+      console.log(ans);
+      if (this.menu_active == "อายุ") this.onCheckQuestion1(ans);
+      else if (this.menu_active == "การศึกษา") this.onCheckQuestion2(ans);
+      else if (this.menu_active == "สาขาที่จบ") this.onCheckQuestion3(ans);
+      else if (this.menu_active == "อาชีพเดิม") this.onCheckQuestion4(ans);
+      else if (this.menu_active == "เครือข่าย") this.onCheckQuestion5(ans);
+      else this.onCheckQuestion6(ans);
+      this.fade_ppl = mp_data.length - this.data.length;
+      console.log(this.data.length);
+    },
+    onCheckQuestion1(ans) {
+      if (ans == "อายุ 18-30") this.data = mp_data.filter((x) => x.age18_30);
+      else if (ans == "อายุ 31-40")
+        this.data = mp_data.filter((x) => x.age31_40);
+      else if (ans == "อายุ 41-50")
+        this.data = mp_data.filter((x) => x.age41_50);
+      else if (ans == "อายุ 51-60 ขึ้นไป")
+        this.data = mp_data.filter((x) => x.age51_60);
+      else this.data = mp_data.filter((x) => x.noneedage);
+    },
+    onCheckQuestion2(ans) {
+      if (ans == "ต่ำกว่าปริญญาตรี")
+        this.data = mp_data.filter((x) => x.below_bachelor_deg);
+      else if (ans == "ปริญญาตรี")
+        this.data = mp_data.filter((x) => x.bachelor_deg);
+      else if (ans == "ปริญญาโท")
+        this.data = mp_data.filter((x) => x.master_deg);
+      else if (ans == "ปริญญาเอก") this.data = mp_data.filter((x) => x.phd);
+      else this.data = mp_data.filter((x) => x.no_need_deg);
+    },
+    onCheckQuestion3(ans) {
+      if (ans == "เกี่ยวกับกฎหมาย")
+        this.data = mp_data.filter((x) => x.law_faculty);
+      else if (ans == "เกี่ยวกับการเมือง")
+        this.data = mp_data.filter((x) => x.politics_faculty);
+      else if (ans == "เกี่ยวกับบริหารงานภาครัฐ")
+        this.data = mp_data.filter((x) => x.public_admin_faculty);
+      else if (ans == "เกี่ยวกับการบริหารธุรกิจ")
+        this.data = mp_data.filter((x) => x.business_faculty);
+      else if (ans == "เกี่ยวกับการศึกษา")
+        this.data = mp_data.filter((x) => x.education_faculty);
+      else if (ans == "อื่นๆ")
+        this.data = mp_data.filter((x) => x.other_faculty);
+      else this.data = mp_data.filter((x) => x.any_faculty);
+    },
+    onCheckQuestion4(ans) {
+      if (ans == "ทำงานสายกฎหมาย")
+        this.data = mp_data.filter((x) => x.law_work);
+      else if (ans == "ทำงานสายการเมือง")
+        this.data = mp_data.filter((x) => x.politics_work);
+      else if (ans == "ทำงานสายบริหารงานภาครัฐ")
+        this.data = mp_data.filter((x) => x.public_admin_work);
+      else if (ans == "นักธุรกิจ")
+        this.data = mp_data.filter((x) => x.business_work);
+      else if (ans == "นักวิชาการ")
+        this.data = mp_data.filter((x) => x.education_work);
+      else if (ans == "ทำงานสาขาอื่นๆ")
+        this.data = mp_data.filter((x) => x.other_work);
+      else this.data = mp_data.filter((x) => x.any_work);
+    },
+    onCheckQuestion5(ans) {
+      if (ans == "ควร")
+        this.data = mp_data.filter((x) => x.has_connection_bloodline);
+      else if (ans == "ไม่ควร")
+        this.data = mp_data.filter((x) => x.no_connection_bloodline);
+      else this.data = mp_data.filter((x) => x.no_need_connection_bloodline);
+    },
+    onCheckQuestion6(ans) {
+      if (ans == "ควร")
+        this.data = mp_data.filter((x) => x.live_in_own_province);
+      else if (ans == "ไม่ควร")
+        this.data = mp_data.filter((x) => x.not_live_in_own_province);
+      else this.data = mp_data.filter((x) => x.noneed_live_in_own_province);
     },
   },
 };
@@ -370,5 +458,9 @@ export default {
 
 .question-box {
   max-width: 385px;
+}
+
+.faded {
+  opacity: 0.2;
 }
 </style>
