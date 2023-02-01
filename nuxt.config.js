@@ -25,7 +25,9 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/styles/main.scss',
-    '@wevisdemo/ui/styles/index.css'
+    '@wevisdemo/ui/styles/index.css',
+    'vue-slick-carousel/dist/vue-slick-carousel.css',
+    'vue-slick-carousel/dist/vue-slick-carousel-theme.css',
   ],
 
 
@@ -33,6 +35,7 @@ export default {
   plugins: [
     { src: './plugins/lottie.js' },
     { src: './plugins/vue-social-sharing.js' },
+    { src: './plugins/vue-slick-carousel.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -41,6 +44,23 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/style-resources',
+    [
+      "@nuxtjs/firebase",
+      {
+        config: {
+          apiKey: "AIzaSyBA1NwM1_ksCjLQy3DrQGA7Xyw3BxvzMFk",
+          authDomain: "design-your-mp.firebaseapp.com",
+          databaseURL: "https://design-your-mp-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "design-your-mp",
+          storageBucket: "design-your-mp.appspot.com",
+          messagingSenderId: "962874743822",
+          appId: "1:962874743822:web:292433cca137deebc2f05f"
+        },
+        services: {
+          database: true
+        }
+      }
+    ]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

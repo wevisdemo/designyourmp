@@ -9,11 +9,13 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/firebase": "^7.6.1",
     "@nuxtjs/style-resources": "^1.2.1",
     "@wevisdemo/ui": "^5.2.0",
     "bootstrap": "^4.6.2",
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.25.3",
+    "firebase": "^8.10.1",
     "lottie-web": "^5.10.1",
     "lottie-web-vue": "^1.2.1",
     "node-sass": "^6.0.1",
@@ -21,6 +23,7 @@
     "sass-loader": "^10.2.0",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
+    "vue-slick-carousel": "^1.0.6",
     "vue-social-sharing": "^3.0.9",
     "vue-template-compiler": "^2.7.10",
     "vuedraggable": "^2.24.3"

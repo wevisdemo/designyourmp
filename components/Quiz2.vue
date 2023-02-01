@@ -44,7 +44,6 @@
           :disabled="!enabled"
           class="list-group"
           ghost-class="ghost"
-          :move="checkMove"
           @start="dragging = true"
           @end="dragging = false"
         >
@@ -71,6 +70,8 @@
             </div>
           </div>
         </draggable>
+
+        <button @click="submit">submit</button>
       </div>
     </div>
   </div>
@@ -78,6 +79,8 @@
 
 <script>
 import draggable from "vuedraggable";
+import firebase from "firebase";
+
 export default {
   name: "Quiz1",
   components: {
@@ -103,6 +106,29 @@ export default {
       ],
       dragging: false,
     };
+  },
+  created() {
+    this.setData();
+  },
+  methods: {
+    async setData(choice) {
+      const ref = this.$fire.database.ref("quizzes/quiz2");
+      try {
+        const snapshots = await ref.once("value");
+        console.log(snapshots.val());
+      } catch (e) {
+        alert(e);
+      }
+    },
+    submit() {
+      this.list.forEach((element, i) => {
+        console.log(element, i);
+        const ref = this.$fire.database.ref(
+          "quizzes/quiz2/choice" + element.id
+        );
+        ref.set(firebase.database.ServerValue.increment(10 - i));
+      });
+    },
   },
 };
 </script>

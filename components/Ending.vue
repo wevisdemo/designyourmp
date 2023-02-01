@@ -144,7 +144,7 @@
             <ShareNetwork
               network="facebook"
               title=""
-              url="http://localbudgeting.actai.co/"
+              url="https://wevisdemo.github.io/qualification-of-representative/"
               class="share-btn pointer text-1 mx-2"
             >
               <img :src="facebook" alt="facebook" />
@@ -153,7 +153,7 @@
             <ShareNetwork
               network="twitter"
               title=""
-              url="http://localbudgeting.actai.co/"
+              url="https://wevisdemo.github.io/qualification-of-representative/"
               class="share-btn pointer text-1 mx-2"
             >
               <img :src="twitter" alt="twitter" />
@@ -161,7 +161,7 @@
             <ShareNetwork
               network="line"
               title=""
-              url="http://localbudgeting.actai.co/"
+              url="https://wevisdemo.github.io/qualification-of-representative/"
               class="share-btn pointer text-1 mx-2"
             >
               <img :src="line" alt="line" />

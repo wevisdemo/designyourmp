@@ -29,14 +29,27 @@
           v-for="(item, i) in menu"
           :key="i"
           class="menu"
-          :class="{ active: menu_active == item }"
+          :class="[
+            { active: menu_active == item, 'noclick faded': isShowConfirm },
+          ]"
           @click="selectMenu(item, i)"
         >
           <p class="header-11 m-0">{{ item }}</p>
         </div>
       </div>
-      <b-row class="min-h-screen" no-gutters>
+      <div class="popup-confirm" v-if="isShowConfirm">
+        <p class="header-7 font-weight-bold">
+          ยืนยันคำตอบ <br />
+          เพื่อเอาข้อมูลไปคำนวณ
+        </p>
+        <div class="choice header-8 mb-2" @click="showResult">ยืนยัน</div>
+        <div class="choice header-8" @click="isShowConfirm = false">
+          เดี๋ยวก่อน
+        </div>
+      </div>
+      <b-row class="min-h-screen bg-black-2" no-gutters>
         <b-col
+          :class="{ faded: isShowConfirm }"
           lg="6"
           class="
             bg-black-2
@@ -44,8 +57,21 @@
             justify-content-center
             align-items-center
             text-white
+            position-relative
           "
         >
+          <div class="popup" v-if="data.length == 0">
+            <b-row class="align-items-center" no-gutters>
+              <b-col cols="4"><img :src="alert_icon" alt="" /></b-col>
+              <b-col cols="8" class="text-left">
+                <p class="header-11 font-weight-bold m-0">เสียใจด้วย!</p>
+                <p class="header-11 m-0">
+                  ส.ส. ในสภาชุดที่ 25 ไม่มีที่ ตรงกับใจของคุณ แต่เราอยาก
+                  ให้คุณออกแบบต่อว่า ส.ส. แบบไหนที่คุณอยากเห็น!
+                </p>
+              </b-col>
+            </b-row>
+          </div>
           <div>
             <p class="header-10">ส.ส. ในสภา<br />ที่ตรงกับความต้องการ</p>
             <div class="people-box d-flex flex-wrap my-3 my-lg-5">
@@ -63,6 +89,7 @@
           </div>
         </b-col>
         <b-col
+          :class="{ faded: isShowConfirm }"
           lg="6"
           class="bg-black d-flex justify-content-center align-items-center"
           ><div class="question-box">
@@ -78,8 +105,28 @@
                 v-for="item in current_quiz.ans"
                 class="choice mb-2"
                 @click="answer(item)"
+                :class="[
+                  {
+                    'bg-blue': current_quiz.current_ans == item,
+                    noclick: isShowConfirm,
+                  },
+                ]"
               >
                 <p class="header-8 m-0">{{ item }}</p>
+                <p class="header-10 m-0" v-if="item == 'ทำงานสายกฎหมาย'">
+                  (เช่น ทนายความ, อัยการ, ผู้พิพากษา, นิติกร,
+                  ที่ปรึกษาทางกฎหมาย)
+                </p>
+                <p class="header-10 m-0" v-else-if="item == 'ทำงานสายการเมือง'">
+                  (เช่น ส.ส., นายกอปท., สภาอปท. , รัฐมนตรี)
+                </p>
+                <p
+                  class="header-10 m-0"
+                  v-else-if="item == 'ทำงานสายบริหารงานภาครัฐ'"
+                >
+                  (เช่น ผู้ว่าราชการจังหวัด, นายอำเภอ, ปลัดอำเภอ,
+                  ข้าราชการพลเรือนสามัญ)
+                </p>
               </div></template
             >
           </div>
@@ -97,8 +144,66 @@
           ตัวเลือกอื่นๆ ที่ใกล้เคียงกับคุณสมบัติของคุณกว่านี้ก็ได้
         </p>
         <b-row class="result-box-content">
-          <b-col lg="6">1</b-col>
-          <b-col lg="6">2</b-col>
+          <b-col lg="6">
+            <div class="d-flex flex-wrap people-box-result-wrapper">
+              <!-- <VueSlickCarousel ref="slick" :options="slickOptions"> -->
+              <div v-for="item in test" class="people-box-result p-1">
+                <!-- <img
+                  :src="
+                    require(`@/assets/images/politician_photos_crop/${item.name}-${item.surname}.jpg`)
+                  "
+                  alt=""
+                /> -->
+                <img
+                  :src="require(`@/assets/images/sample.svg`)"
+                  alt=""
+                  :id="'person-' + item.id"
+                />
+                <b-popover
+                  :target="'person-' + item.id"
+                  triggers="hover"
+                  placement="top"
+                >
+                  {{ item.name }}
+
+                  <a
+                    :href="
+                      'https://theyworkforus.wevis.info/people/' +
+                      item.name +
+                      '-' +
+                      item.surname
+                    "
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >link</a
+                  >
+                </b-popover>
+              </div>
+
+              <!-- </VueSlickCarousel> -->
+            </div>
+          </b-col>
+          <b-col lg="6" class="text-center header-9">
+            <p class="font-weight-bold">คุณสมบัติที่คุณอยากเห็น</p>
+            <div class="choice">
+              อายุของ ส.ส. ควรอยู่ในช่วง <b>{{ quiz[0].current_ans }}</b>
+            </div>
+            <div class="choice">
+              <b>{{ quiz[1].current_ans }}</b>
+            </div>
+            <div class="choice">
+              <b>{{ quiz[2].current_ans }}</b>
+            </div>
+            <div class="choice">
+              <b>{{ quiz[3].current_ans }}</b>
+            </div>
+            <div class="choice">
+              <b>{{ quiz[4].current_ans }}</b>
+            </div>
+            <div class="choice">
+              <b>{{ quiz[5].current_ans }}</b>
+            </div>
+          </b-col>
         </b-row>
         <hr />
         <p class="header-11">แชร์ไปให้เพื่อนของคุณเล่น</p>
@@ -140,9 +245,15 @@
 
 <script>
 import * as mp_data from "~/assets/data/mp_pro.json";
+import VueSlickCarousel from "vue-slick-carousel";
+import "vue-slick-carousel/dist/vue-slick-carousel.css";
+// optional style for arrows & dots
+import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
+import firebase from "firebase";
 
 export default {
   name: "Quiz1",
+  components: { VueSlickCarousel },
   data() {
     return {
       choice_1: require("~/assets/images/choice_1.svg"),
@@ -150,6 +261,7 @@ export default {
       facebook: require("~/assets/images/facebook.svg"),
       line: require("~/assets/images/line.svg"),
       twitter: require("~/assets/images/twitter.svg"),
+      alert_icon: require("~/assets/images/alert_icon.svg"),
       menu: [
         "อายุ",
         "การศึกษา",
@@ -172,6 +284,7 @@ export default {
             "ไม่กำหนดอายุ",
           ],
           current_ans: "",
+          filter: "",
         },
         {
           id: 2,
@@ -184,6 +297,7 @@ export default {
             "ไม่กำหนด",
           ],
           current_ans: "",
+          filter: "",
         },
         {
           id: 3,
@@ -198,6 +312,7 @@ export default {
             "จบสาขาใดมาก็ได้",
           ],
           current_ans: "",
+          filter: "",
         },
         {
           id: 4,
@@ -212,12 +327,14 @@ export default {
             "ทำงานสายใดมาก็ได้",
           ],
           current_ans: "",
+          filter: "",
         },
         {
           id: 5,
           question: "ควรจะต้องมีเครือข่ายทางการเมืองไหม?",
           ans: ["ควร", "ไม่ควร", "ไม่จำเป็น"],
           current_ans: "",
+          filter: "",
         },
         {
           id: 6,
@@ -225,14 +342,28 @@ export default {
             "ส.ส. เขต ควรจะต้องเรียน หรืออาศัยอยู่หรือทำงาน ในจังหวัดที่ลงสมัครไหม?",
           ans: ["ควร", "ไม่ควร", "ไม่จำเป็น"],
           current_ans: "",
+          filter: "",
         },
       ],
       data: mp_data.default,
       fade_ppl: 0,
+      isShowConfirm: false,
+      test: [],
+      slickOptions: {
+        dots: true,
+        focusOnSelect: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        touchThreshold: 5,
+        // Any other options that can be got from plugin documentation
+      },
     };
   },
   mounted() {
     this.current_quiz = this.quiz[0];
+    this.test = this.data.filter((x) => x.age31_40);
   },
   methods: {
     selectMenu(menu, index) {
@@ -240,79 +371,108 @@ export default {
       this.current_quiz = this.quiz[index];
     },
     answer(ans) {
-      console.log(ans);
+      // console.log(ans);
       if (this.menu_active == "อายุ") this.onCheckQuestion1(ans);
       else if (this.menu_active == "การศึกษา") this.onCheckQuestion2(ans);
       else if (this.menu_active == "สาขาที่จบ") this.onCheckQuestion3(ans);
       else if (this.menu_active == "อาชีพเดิม") this.onCheckQuestion4(ans);
       else if (this.menu_active == "เครือข่าย") this.onCheckQuestion5(ans);
       else this.onCheckQuestion6(ans);
+
+      this.filterData();
+    },
+    showResult() {
+      var x = this.quiz.map((num) => num.filter);
+
+      x.forEach((element, i) => {
+        console.log(element,i);
+        const ref = this.$fire.database.ref(
+          "quizzes/quiz1/question" + (i + 1) + "/" + element
+        );
+        ref.set(firebase.database.ServerValue.increment(1));
+      });
+    },
+    filterData() {
+      // console.log(this.quiz.map((num) => num.filter));
+      // console.log(this.quiz.map((num) => num.current_ans));
+
+      var x = this.quiz.map((num) => num.filter);
+      var i = 0;
+      this.data = mp_data.default;
+
+      x.forEach((element) => {
+        if (element != "") {
+          this.data = this.data.filter((x) => x[element]);
+          i++;
+        }
+      });
+
+      if (i == 6) this.isShowConfirm = true;
+      else this.isShowConfirm = false;
+
       this.fade_ppl = mp_data.length - this.data.length;
-      console.log(this.data.length);
+
+      // console.log(this.data.length);
     },
     onCheckQuestion1(ans) {
-      if (ans == "อายุ 18-30") this.data = mp_data.filter((x) => x.age18_30);
-      else if (ans == "อายุ 31-40")
-        this.data = mp_data.filter((x) => x.age31_40);
-      else if (ans == "อายุ 41-50")
-        this.data = mp_data.filter((x) => x.age41_50);
-      else if (ans == "อายุ 51-60 ขึ้นไป")
-        this.data = mp_data.filter((x) => x.age51_60);
-      else this.data = mp_data.filter((x) => x.noneedage);
+      if (ans == "อายุ 18-30") this.quiz[0].filter = "age18_30";
+      else if (ans == "อายุ 31-40") this.quiz[0].filter = "age31_40";
+      else if (ans == "อายุ 41-50") this.quiz[0].filter = "age41_50";
+      else if (ans == "อายุ 51-60 ขึ้นไป") this.quiz[0].filter = "age51_60";
+      else this.quiz[0].filter = "noneedage";
+
+      this.quiz[0].current_ans = ans;
     },
     onCheckQuestion2(ans) {
-      if (ans == "ต่ำกว่าปริญญาตรี")
-        this.data = mp_data.filter((x) => x.below_bachelor_deg);
-      else if (ans == "ปริญญาตรี")
-        this.data = mp_data.filter((x) => x.bachelor_deg);
-      else if (ans == "ปริญญาโท")
-        this.data = mp_data.filter((x) => x.master_deg);
-      else if (ans == "ปริญญาเอก") this.data = mp_data.filter((x) => x.phd);
-      else this.data = mp_data.filter((x) => x.no_need_deg);
+      if (ans == "ต่ำกว่าปริญญาตรี") this.quiz[1].filter = "below_bachelor_deg";
+      else if (ans == "ปริญญาตรี") this.quiz[1].filter = "bachelor_deg";
+      else if (ans == "ปริญญาโท") this.quiz[1].filter = "master_deg";
+      else if (ans == "ปริญญาเอก") this.quiz[1].filter = "phd";
+      else this.quiz[1].filter = "no_need_deg";
+
+      this.quiz[1].current_ans = ans;
     },
     onCheckQuestion3(ans) {
-      if (ans == "เกี่ยวกับกฎหมาย")
-        this.data = mp_data.filter((x) => x.law_faculty);
+      if (ans == "เกี่ยวกับกฎหมาย") this.quiz[2].filter = "law_faculty";
       else if (ans == "เกี่ยวกับการเมือง")
-        this.data = mp_data.filter((x) => x.politics_faculty);
+        this.quiz[2].filter = "politics_faculty";
       else if (ans == "เกี่ยวกับบริหารงานภาครัฐ")
-        this.data = mp_data.filter((x) => x.public_admin_faculty);
+        this.quiz[2].filter = "public_admin_faculty";
       else if (ans == "เกี่ยวกับการบริหารธุรกิจ")
-        this.data = mp_data.filter((x) => x.business_faculty);
+        this.quiz[2].filter = "business_faculty";
       else if (ans == "เกี่ยวกับการศึกษา")
-        this.data = mp_data.filter((x) => x.education_faculty);
-      else if (ans == "อื่นๆ")
-        this.data = mp_data.filter((x) => x.other_faculty);
-      else this.data = mp_data.filter((x) => x.any_faculty);
+        this.quiz[2].filter = "education_faculty";
+      else if (ans == "อื่นๆ") this.quiz[2].filter = "other_faculty";
+      else this.quiz[2].filter = "any_faculty";
+
+      this.quiz[2].current_ans = ans;
     },
     onCheckQuestion4(ans) {
-      if (ans == "ทำงานสายกฎหมาย")
-        this.data = mp_data.filter((x) => x.law_work);
-      else if (ans == "ทำงานสายการเมือง")
-        this.data = mp_data.filter((x) => x.politics_work);
+      if (ans == "ทำงานสายกฎหมาย") this.quiz[3].filter = "law_work";
+      else if (ans == "ทำงานสายการเมือง") this.quiz[3].filter = "politics_work";
       else if (ans == "ทำงานสายบริหารงานภาครัฐ")
-        this.data = mp_data.filter((x) => x.public_admin_work);
-      else if (ans == "นักธุรกิจ")
-        this.data = mp_data.filter((x) => x.business_work);
-      else if (ans == "นักวิชาการ")
-        this.data = mp_data.filter((x) => x.education_work);
-      else if (ans == "ทำงานสาขาอื่นๆ")
-        this.data = mp_data.filter((x) => x.other_work);
-      else this.data = mp_data.filter((x) => x.any_work);
+        this.quiz[3].filter = "public_admin_work";
+      else if (ans == "นักธุรกิจ") this.quiz[3].filter = "business_work";
+      else if (ans == "นักวิชาการ") this.quiz[3].filter = "education_work";
+      else if (ans == "ทำงานสาขาอื่นๆ") this.quiz[3].filter = "other_work";
+      else this.quiz[3].filter = "any_work";
+
+      this.quiz[3].current_ans = ans;
     },
     onCheckQuestion5(ans) {
-      if (ans == "ควร")
-        this.data = mp_data.filter((x) => x.has_connection_bloodline);
-      else if (ans == "ไม่ควร")
-        this.data = mp_data.filter((x) => x.no_connection_bloodline);
-      else this.data = mp_data.filter((x) => x.no_need_connection_bloodline);
+      if (ans == "ควร") this.quiz[4].filter = "has_connection_bloodline";
+      else if (ans == "ไม่ควร") this.quiz[4].filter = "no_connection_bloodline";
+      else this.quiz[4].filter = "no_need_connection_bloodline";
+
+      this.quiz[4].current_ans = ans;
     },
     onCheckQuestion6(ans) {
-      if (ans == "ควร")
-        this.data = mp_data.filter((x) => x.live_in_own_province);
+      if (ans == "ควร") this.quiz[5].filter = "live_in_own_province";
       else if (ans == "ไม่ควร")
-        this.data = mp_data.filter((x) => x.not_live_in_own_province);
-      else this.data = mp_data.filter((x) => x.noneed_live_in_own_province);
+        this.quiz[5].filter = "not_live_in_own_province";
+      else this.quiz[5].filter = "noneed_live_in_own_province";
+
+      this.quiz[5].current_ans = ans;
     },
   },
 };
@@ -462,5 +622,58 @@ export default {
 
 .faded {
   opacity: 0.2;
+}
+
+.popup {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  max-width: 300px;
+  margin: auto;
+  position: absolute;
+  padding: 10px;
+  color: #000000;
+  z-index: 1;
+}
+
+.popup-confirm {
+  background: rgba(81, 180, 250, 0.9);
+  border-radius: 5px;
+  max-width: 500px;
+  margin: auto;
+  position: absolute;
+  color: #000000;
+  z-index: 2;
+  padding: 56px 109px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: fit-content;
+}
+
+.noclick {
+  pointer-events: none;
+}
+.people-box-result {
+  width: 20%;
+
+  img {
+    width: 100%;
+  }
+}
+
+.people-box-result-wrapper {
+  overflow-y: scroll;
+  height: 365px;
+}
+
+.people-box-result-wrapper::-webkit-scrollbar {
+  background: rgba(19, 18, 18, 0.2);
+  width: 5px;
+}
+
+.people-box-result-wrapper::-webkit-scrollbar-thumb {
+  background: rgb(19, 18, 18);
+  border-radius: 10px;
 }
 </style>

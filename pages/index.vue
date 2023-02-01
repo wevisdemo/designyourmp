@@ -7,7 +7,7 @@
     </WvNavbar>
     <Intro />
     <Quiz1 />
-      <Quiz2 />
+    <Quiz2 />
     <Ending />
     <WvFooter :dark="true" />
     <WvCookieConsent
@@ -35,6 +35,41 @@ export default {
   data() {
     return {
       cookieOptions: ["Performance"],
+
+      meta: [
+        {
+          hid: "og-image",
+          property: "og:image",
+          content:
+            "https://wevisdemo.github.io/qualification-of-representative/og_title.png",
+        },
+        {
+          hid: "twitter:image",
+          name: "twitter:image:src",
+          content:
+            "https://wevisdemo.github.io/qualification-of-representative/og_title.png",
+        },
+        {
+          hid: "og:title",
+          property: "og:title",
+          content: "'ผู้แทน' แบบไหนที่เราอยากเห็น?",
+        },
+        {
+          hid: "og:description",
+          property: "og:description",
+          content: "ร่วมออกแบบคุณสมบัติสมาชิกสภาผู้แทนราษฎร (ส.ส.)",
+        },
+        {
+          hid: "twitter:title",
+          name: "twitter:title",
+          content: "'ผู้แทน' แบบไหนที่เราอยากเห็น?",
+        },
+        {
+          hid: "twitter:description",
+          name: "twitter:description",
+          content: "ร่วมออกแบบคุณสมบัติสมาชิกสภาผู้แทนราษฎร (ส.ส.)",
+        },
+      ],
     };
   },
   methods: {
