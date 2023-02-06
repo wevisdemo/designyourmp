@@ -1,3 +1,10 @@
+const BASE_URL = "https://wevisdemo.github.io/qualification-of-representative/";
+const array = [];
+
+for (var i = 1; i <= 500; i++) {
+  array.push("/ogimage/" + i);
+}
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   // ssr: true,
@@ -77,5 +84,9 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['@wevisdemo/ui/vue2'],
+  },
+
+  generate: {
+    routes: array
   }
 }
