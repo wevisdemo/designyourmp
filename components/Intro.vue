@@ -79,7 +79,7 @@
       <div class="my-5">
         <div class="d-flex justify-content-center flex-column flex-lg-row">
           <div>
-            <div class="circle" id="choice-1">
+            <div class="circle" id="choice-1" @click="showQuiz(1)">
               <img :src="choice_1" alt="choice_1" />
               <div class="content">
                 <h5 class="header-5 font-weight-bold">คุณสมบัติพื้นฐาน</h5>
@@ -91,7 +91,7 @@
             </div>
           </div>
           <div>
-            <div class="circle" id="choice-2">
+            <div class="circle" id="choice-2" @click="showQuiz(2)">
               <img :src="choice_2" alt="choice_2" />
               <div class="content">
                 <h5 class="header-5 font-weight-bold">ทักษะและลักษณะนิสัย</h5>
@@ -126,6 +126,16 @@ export default {
       choice_2: require("~/assets/images/choice_2.svg"),
       go_down: require("~/assets/images/go_down.svg"),
     };
+  },
+  methods: {
+    showQuiz(choice) {
+      if (choice == 1) this.$store.commit("setShowQuiz1", true);
+      else this.$store.commit("setShowQuiz2", true);
+
+      setTimeout(() => {
+        document.getElementById("quiz-" + choice).scrollIntoView();
+      }, 500);
+    },
   },
 };
 </script>

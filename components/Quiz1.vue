@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      id="quiz-1"
       class="
         h-100vh
         bg-main
@@ -102,9 +103,9 @@
               </p>
 
               <div
-                v-for="item in current_quiz.ans"
+                v-for="(item, i) in current_quiz.ans"
                 class="choice mb-2"
-                @click="answer(item)"
+                @click="answer(item, i)"
                 :class="[
                   {
                     'bg-blue': current_quiz.current_ans == item,
@@ -133,11 +134,19 @@
         </b-col>
       </b-row>
     </div>
-    <div class="min-h-screen bg-main result">
+    <div class="min-h-screen bg-main result" v-if="isShowResult">
       <div class="result-box text-center min-h-screen">
-        <h4 class="header-4 font-weight-bold kondolar">ยินดีด้วย!</h4>
+        <h4 class="header-4 font-weight-bold kondolar">
+          {{ result_list.length != 0 ? "ยินดีด้วย!" : "เสียใจด้วย!" }}
+        </h4>
         <h4 class="header-5 font-weight-bold kondolar">
-          คุณสมบัติที่คุณเลือกใกล้เคียงกับ ส.ส. ที่มีอยู่ ดังนี้!
+          คุณสมบัติที่คุณเลือก{{
+            result_list.length != 0
+              ? "ใกล้เคียงกับ ส.ส. ที่มีอยู่ " +
+                result_list.length +
+                " คน ดังนี้"
+              : "ไม่ใกล้เคียงกับ ส.ส. คนไหนในสภานี้เลย"
+          }}
         </h4>
         <p class="header-11">
           *ข้อมูลนำมาวิเคราะห์คือ ส.ส. ในสภาชุดที่ 25 และในอนาคตอาจมีหรือไม่มี
@@ -145,9 +154,12 @@
         </p>
         <b-row class="result-box-content">
           <b-col lg="6">
-            <div class="d-flex flex-wrap people-box-result-wrapper">
+            <div
+              class="d-flex flex-wrap people-box-result-wrapper"
+              v-if="result_list.length != 0"
+            >
               <!-- <VueSlickCarousel ref="slick" :options="slickOptions"> -->
-              <div v-for="item in test" class="people-box-result p-1">
+              <div v-for="item in result_list" class="people-box-result p-1">
                 <!-- <img
                   :src="
                     require(`@/assets/images/politician_photos_crop/${item.name}-${item.surname}.jpg`)
@@ -182,26 +194,51 @@
 
               <!-- </VueSlickCarousel> -->
             </div>
+            <div
+              class="d-flex justify-content-center align-items-center h-100"
+              v-else
+            >
+              <div>
+                <img :src="illus_cry" alt="" />
+              </div>
+            </div>
           </b-col>
           <b-col lg="6" class="text-center header-9">
             <p class="font-weight-bold">คุณสมบัติที่คุณอยากเห็น</p>
             <div class="choice">
-              อายุของ ส.ส. ควรอยู่ในช่วง <b>{{ quiz[0].current_ans }}</b>
+              <span v-if="quiz[0].current_ans != 'ไม่กำหนดอายุ'"
+                >อายุของ ส.ส. ควรอยู่ในช่วง
+                <b>{{ quiz[0].current_ans }}</b> ปี</span
+              >
+              <span v-else>ไม่กำหนดอายุของ ส.ส.</span>
             </div>
             <div class="choice">
-              <b>{{ quiz[1].current_ans }}</b>
+              <span v-if="quiz[1].current_ans != 'ไม่กำหนด'"
+                >ระดับการศึกษาของ ส.ส. ควรอยู่ในช่วง<b>{{
+                  quiz[1].current_ans
+                }}</b></span
+              >
+              <span v-else>ไม่กำหนดระดับการศึกษา</span>
             </div>
             <div class="choice">
-              <b>{{ quiz[2].current_ans }}</b>
+              <span v-if="quiz[2].current_ans != 'จบสาขาใดมาก็ได้'"
+                >จบการศึกษา<b>{{ quiz[2].current_ans }}</b></span
+              >
+              <span v-else>จบสาขาใดมาก็ได้</span>
             </div>
             <div class="choice">
-              <b>{{ quiz[3].current_ans }}</b>
+              <span v-if="quiz[3].current_ans != 'ทำงานสายใดมาก็ได้'"
+                >อาชีพเดิมต้องทำงาน<b>{{ quiz[3].current_ans }}</b></span
+              >
+              <span v-else>ทำงานสายใดมาก็ได้</span>
             </div>
             <div class="choice">
-              <b>{{ quiz[4].current_ans }}</b>
+              <b>{{ quiz[4].current_ans }}</b
+              >ต้องมีเครือข่ายทางการเมือง
             </div>
             <div class="choice">
-              <b>{{ quiz[5].current_ans }}</b>
+              <b>{{ quiz[5].current_ans }}</b
+              >ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
             </div>
           </b-col>
         </b-row>
@@ -214,7 +251,10 @@
             <ShareNetwork
               network="facebook"
               title=""
-              url="http://localbudgeting.actai.co/"
+              :url="
+                'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                result_list.length
+              "
               class="share-btn pointer text-1 mx-2"
             >
               <img :src="facebook" alt="facebook" />
@@ -223,7 +263,10 @@
             <ShareNetwork
               network="twitter"
               title=""
-              url="http://localbudgeting.actai.co/"
+              :url="
+                'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                result_list.length
+              "
               class="share-btn pointer text-1 mx-2"
             >
               <img :src="twitter" alt="twitter" />
@@ -231,7 +274,10 @@
             <ShareNetwork
               network="line"
               title=""
-              url="http://localbudgeting.actai.co/"
+              :url="
+                'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                result_list.length
+              "
               class="share-btn pointer text-1 mx-2"
             >
               <img :src="line" alt="line" />
@@ -244,6 +290,17 @@
 </template>
 
 <script>
+const quiz_result =
+  "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Quiz1-Result";
+
+let config = {
+  headers: {
+    "xc-auth":
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMTdkOTNmYTZhYjc1ZjVmZWYyODU5ZDRjZTA2ZmJlNGYxOTU2YTA4OWU4NzRlODliODI0ZjMyZTFjNDZkNzY0N2YxNmMxZDkxZjI4MjJlNzAiLCJpYXQiOjE2NzU3MTEwMjYsImV4cCI6MTY3NTc0NzAyNn0.Ut5QlmS9B32TMaPL6tTCd6fWhtlht3BggdcrjFXFjIE",
+    "Content-Type": "application/json",
+  },
+};
+
 import * as mp_data from "~/assets/data/mp_pro.json";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
@@ -262,6 +319,7 @@ export default {
       line: require("~/assets/images/line.svg"),
       twitter: require("~/assets/images/twitter.svg"),
       alert_icon: require("~/assets/images/alert_icon.svg"),
+      illus_cry: require("~/assets/images/illus_cry.png"),
       menu: [
         "อายุ",
         "การศึกษา",
@@ -348,7 +406,8 @@ export default {
       data: mp_data.default,
       fade_ppl: 0,
       isShowConfirm: false,
-      test: [],
+      isShowResult: false,
+      result_list: [],
       slickOptions: {
         dots: true,
         focusOnSelect: true,
@@ -363,14 +422,13 @@ export default {
   },
   mounted() {
     this.current_quiz = this.quiz[0];
-    this.test = this.data.filter((x) => x.age31_40);
   },
   methods: {
     selectMenu(menu, index) {
       this.menu_active = menu;
       this.current_quiz = this.quiz[index];
     },
-    answer(ans) {
+    answer(ans, i) {
       // console.log(ans);
       if (this.menu_active == "อายุ") this.onCheckQuestion1(ans);
       else if (this.menu_active == "การศึกษา") this.onCheckQuestion2(ans);
@@ -380,17 +438,51 @@ export default {
       else this.onCheckQuestion6(ans);
 
       this.filterData();
+
+      var a = this.menu.indexOf(this.menu_active);
+
+      if (this.menu_active != "ยึดโยงพื้นที่") {
+        this.selectMenu(this.menu[a + 1], a + 1);
+      }
     },
-    showResult() {
+    async showResult() {
       var x = this.quiz.map((num) => num.filter);
 
       x.forEach((element, i) => {
-        console.log(element,i);
+        console.log(element, i);
         const ref = this.$fire.database.ref(
           "quizzes/quiz1/question" + (i + 1) + "/" + element
         );
         ref.set(firebase.database.ServerValue.increment(1));
       });
+
+      var x = this.quiz.map((num) => num.current_ans);
+
+      await this.$axios
+        .$post(
+          quiz_result,
+          {
+            ans_1: x[0],
+            ans_2: x[1],
+            ans_3: x[2],
+            ans_4: x[3],
+            ans_5: x[4],
+            ans_6: x[5],
+          },
+          config
+        )
+        .then((response) => {
+          console.log("send!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      this.result_list = this.data;
+
+      setTimeout(() => {
+        this.isShowResult = true;
+      }, 1000);
     },
     filterData() {
       // console.log(this.quiz.map((num) => num.filter));
@@ -581,7 +673,8 @@ export default {
 .choice {
   // max-width: 216px;
   width: 100%;
-  margin: auto;
+  margin: auto 0;
+  margin-bottom: 10px;
   background: #ffffff;
   border: 1px solid #000000;
   border-radius: 5px;
@@ -606,7 +699,7 @@ export default {
   }
 
   .result-box-content {
-    max-width: 815px;
+    max-width: 950px;
     margin: auto;
   }
 

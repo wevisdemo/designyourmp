@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+    id="quiz-2"
       class="
         h-100vh
         bg-main

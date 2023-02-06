@@ -6,9 +6,9 @@
       <WvNavButton :dark="true">About</WvNavButton>
     </WvNavbar>
     <Intro />
-    <Quiz1 />
-    <Quiz2 />
-    <Ending />
+    <Quiz1 v-if="$store.state.isShowQuiz1"/>
+    <Quiz2 v-if="$store.state.isShowQuiz2"/>
+    <Ending v-if="$store.state.isShowQuiz1 && $store.state.isShowQuiz2"/>
     <WvFooter :dark="true" />
     <WvCookieConsent
       policyUrl="https://punchup.world"
