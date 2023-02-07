@@ -131,6 +131,13 @@ body {
     font-size: 14px;
   }
 }
+.header-12 {
+  font-size: 14px;
+  //line-height: 140%;
+  @media #{$mq-mini-mobile} {
+    font-size: 12px;
+  }
+}
 
 // ------------ color ----------------
 .black {
@@ -357,7 +364,9 @@ input[type="search"]:focus::placeholder {
 }
 
 .popover {
+  font-family: "IBMPlexSansThai", serif;
   z-index: 10;
+  text-align: center;
 }
 
 a {

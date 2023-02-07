@@ -102,7 +102,9 @@
             </div>
           </div>
         </div>
-        <button class="see-ans-btn">ข้ามไปดูผลลัพธ์ของคนอื่นๆ</button>
+        <button class="see-ans-btn" @click="showQuiz(3)">
+          ข้ามไปดูผลลัพธ์ของคนอื่นๆ
+        </button>
       </div>
       <div>
         <img :src="go_down" alt="go_down" />
@@ -129,12 +131,18 @@ export default {
   },
   methods: {
     showQuiz(choice) {
+      this.$store.commit("setSelectedQuiz", choice);
       if (choice == 1) this.$store.commit("setShowQuiz1", true);
       else this.$store.commit("setShowQuiz2", true);
 
-      setTimeout(() => {
-        document.getElementById("quiz-" + choice).scrollIntoView();
-      }, 500);
+      if (choice != 3)
+        setTimeout(() => {
+          document.getElementById("quiz-" + choice).scrollIntoView();
+        }, 1000);
+      else
+        setTimeout(() => {
+          document.getElementById("quiz1-result").scrollIntoView();
+        }, 1000);
     },
   },
 };
@@ -145,6 +153,12 @@ export default {
 .lottie-box,
 .choose-wrapper {
   background: #000;
+}
+
+.lottie-box {
+  @media #{$mq-mini-mobile} {
+    min-height: 200vh;
+  }
 }
 
 .choose-wrapper {
@@ -170,6 +184,7 @@ export default {
     @media #{$mq-mini-mobile} {
       width: 270px;
       height: 270px;
+      margin-bottom: 10px;
     }
 
     img {

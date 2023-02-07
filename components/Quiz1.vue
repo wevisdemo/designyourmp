@@ -134,154 +134,172 @@
         </b-col>
       </b-row>
     </div>
-    <div class="min-h-screen bg-main result" v-if="isShowResult">
-      <div class="result-box text-center min-h-screen">
-        <h4 class="header-4 font-weight-bold kondolar">
-          {{ result_list.length != 0 ? "ยินดีด้วย!" : "เสียใจด้วย!" }}
-        </h4>
-        <h4 class="header-5 font-weight-bold kondolar">
-          คุณสมบัติที่คุณเลือก{{
-            result_list.length != 0
-              ? "ใกล้เคียงกับ ส.ส. ที่มีอยู่ " +
-                result_list.length +
-                " คน ดังนี้"
-              : "ไม่ใกล้เคียงกับ ส.ส. คนไหนในสภานี้เลย"
-          }}
-        </h4>
-        <p class="header-11">
-          *ข้อมูลนำมาวิเคราะห์คือ ส.ส. ในสภาชุดที่ 25 และในอนาคตอาจมีหรือไม่มี
-          ตัวเลือกอื่นๆ ที่ใกล้เคียงกับคุณสมบัติของคุณกว่านี้ก็ได้
-        </p>
-        <b-row class="result-box-content">
-          <b-col lg="6">
-            <div
-              class="d-flex flex-wrap people-box-result-wrapper"
-              v-if="result_list.length != 0"
-            >
-              <!-- <VueSlickCarousel ref="slick" :options="slickOptions"> -->
-              <div v-for="item in result_list" class="people-box-result p-1">
-                <!-- <img
-                  :src="
-                    require(`@/assets/images/politician_photos_crop/${item.name}-${item.surname}.jpg`)
-                  "
-                  alt=""
-                /> -->
-                <img
-                  :src="require(`@/assets/images/sample.svg`)"
-                  alt=""
-                  :id="'person-' + item.id"
-                />
-                <b-popover
-                  :target="'person-' + item.id"
-                  triggers="hover"
-                  placement="top"
-                >
-                  {{ item.name }}
-
-                  <a
-                    :href="
-                      'https://theyworkforus.wevis.info/people/' +
-                      item.name +
-                      '-' +
-                      item.surname
+    <div class="h-100vh bg-main result" v-if="isShowResult">
+      <div
+        class="
+          result-box
+          text-center
+          min-h-screen
+          d-flex
+          justify-content-center
+          align-items-center
+        "
+      >
+        <div>
+          <h4 class="header-4 font-weight-bold kondolar">
+            {{ result_list.length != 0 ? "ยินดีด้วย!" : "เสียใจด้วย!" }}
+          </h4>
+          <h4 class="header-5 font-weight-bold kondolar">
+            คุณสมบัติที่คุณเลือก{{
+              result_list.length != 0
+                ? "ใกล้เคียงกับ ส.ส. ที่มีอยู่ " +
+                  result_list.length +
+                  " คน ดังนี้"
+                : "ไม่ใกล้เคียงกับ ส.ส. คนไหนในสภานี้เลย"
+            }}
+          </h4>
+          <p class="header-11">
+            *ข้อมูลนำมาวิเคราะห์คือ ส.ส. ในสภาชุดที่ 25 และในอนาคตอาจมีหรือไม่มี
+            ตัวเลือกอื่นๆ ที่ใกล้เคียงกับคุณสมบัติของคุณกว่านี้ก็ได้
+          </p>
+          <b-row class="result-box-content">
+            <b-col lg="6">
+              <div
+                class="d-flex flex-wrap people-box-result-wrapper"
+                v-if="result_list.length != 0"
+              >
+                <!-- <VueSlickCarousel ref="slick" :options="slickOptions"> -->
+                <div v-for="item in result_list" class="people-box-result p-1">
+                  <!-- <img
+                    :src="
+                      require(`@/assets/images/politician_photos_crop/${item.name}-${item.surname}.jpg`)
                     "
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >link</a
+                    :ref="`${item.name}-${item.surname}`"
+                    :onerror="errorHandler(item.name, item.surname)"
+                    alt=""
+                  /> -->
+                  <img
+                    :src="require(`@/assets/images/sample.svg`)"
+                    alt=""
+                    :id="'person-' + item.id"
+                  />
+                  <b-popover
+                    :target="'person-' + item.id"
+                    triggers="hover"
+                    placement="top"
                   >
-                </b-popover>
+                    <p class="header-9 m-0 font-weight-bold">
+                      {{ item.name }} {{ item.surname }}
+                    </p>
+                    <p class="header-11 m-0">ตำแหน่ง {{ item.party }}</p>
+                    <p class="header-11 m-0">ตำแหน่ง {{ item.type }}</p>
+
+                    <a
+                      :href="
+                        'https://theyworkforus.wevis.info/people/' +
+                        item.name +
+                        '-' +
+                        item.surname
+                      "
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="header-11"
+                      >ผลงาน</a
+                    >
+                  </b-popover>
+                </div>
+
+                <!-- </VueSlickCarousel> -->
               </div>
-
-              <!-- </VueSlickCarousel> -->
-            </div>
-            <div
-              class="d-flex justify-content-center align-items-center h-100"
-              v-else
-            >
-              <div>
-                <img :src="illus_cry" alt="" />
+              <div
+                class="d-flex justify-content-center align-items-center h-100"
+                v-else
+              >
+                <div>
+                  <img :src="illus_cry" alt="" />
+                </div>
               </div>
-            </div>
-          </b-col>
-          <b-col lg="6" class="text-center header-9">
-            <p class="font-weight-bold">คุณสมบัติที่คุณอยากเห็น</p>
-            <div class="choice">
-              <span v-if="quiz[0].current_ans != 'ไม่กำหนดอายุ'"
-                >อายุของ ส.ส. ควรอยู่ในช่วง
-                <b>{{ quiz[0].current_ans }}</b> ปี</span
-              >
-              <span v-else>ไม่กำหนดอายุของ ส.ส.</span>
-            </div>
-            <div class="choice">
-              <span v-if="quiz[1].current_ans != 'ไม่กำหนด'"
-                >ระดับการศึกษาของ ส.ส. ควรอยู่ในช่วง<b>{{
-                  quiz[1].current_ans
-                }}</b></span
-              >
-              <span v-else>ไม่กำหนดระดับการศึกษา</span>
-            </div>
-            <div class="choice">
-              <span v-if="quiz[2].current_ans != 'จบสาขาใดมาก็ได้'"
-                >จบการศึกษา<b>{{ quiz[2].current_ans }}</b></span
-              >
-              <span v-else>จบสาขาใดมาก็ได้</span>
-            </div>
-            <div class="choice">
-              <span v-if="quiz[3].current_ans != 'ทำงานสายใดมาก็ได้'"
-                >อาชีพเดิมต้องทำงาน<b>{{ quiz[3].current_ans }}</b></span
-              >
-              <span v-else>ทำงานสายใดมาก็ได้</span>
-            </div>
-            <div class="choice">
-              <b>{{ quiz[4].current_ans }}</b
-              >ต้องมีเครือข่ายทางการเมือง
-            </div>
-            <div class="choice">
-              <b>{{ quiz[5].current_ans }}</b
-              >ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
-            </div>
-          </b-col>
-        </b-row>
-        <hr />
-        <p class="header-11">แชร์ไปให้เพื่อนของคุณเล่น</p>
-        <div class="share-box text-center">
-          <div class="d-flex justify-content-center align-items-center">
-            <p class="header-11 m-0">Share</p>
+            </b-col>
+            <b-col lg="6" class="text-center header-9">
+              <p class="font-weight-bold">คุณสมบัติที่คุณอยากเห็น</p>
+              <div class="choice">
+                <span v-if="quiz[0].current_ans != 'ไม่กำหนดอายุ'"
+                  >อายุของ ส.ส. ควรอยู่ในช่วง
+                  <b>{{ quiz[0].current_ans }}</b> ปี</span
+                >
+                <span v-else>ไม่กำหนดอายุของ ส.ส.</span>
+              </div>
+              <div class="choice">
+                <span v-if="quiz[1].current_ans != 'ไม่กำหนด'"
+                  >ระดับการศึกษาของ ส.ส. ควรอยู่ในช่วง<b>{{
+                    quiz[1].current_ans
+                  }}</b></span
+                >
+                <span v-else>ไม่กำหนดระดับการศึกษา</span>
+              </div>
+              <div class="choice">
+                <span v-if="quiz[2].current_ans != 'จบสาขาใดมาก็ได้'"
+                  >จบการศึกษา<b>{{ quiz[2].current_ans }}</b></span
+                >
+                <span v-else>จบสาขาใดมาก็ได้</span>
+              </div>
+              <div class="choice">
+                <span v-if="quiz[3].current_ans != 'ทำงานสายใดมาก็ได้'"
+                  >อาชีพเดิมต้องทำงาน<b>{{ quiz[3].current_ans }}</b></span
+                >
+                <span v-else>ทำงานสายใดมาก็ได้</span>
+              </div>
+              <div class="choice">
+                <b>{{ quiz[4].current_ans }}</b
+                >ต้องมีเครือข่ายทางการเมือง
+              </div>
+              <div class="choice">
+                <b>{{ quiz[5].current_ans }}</b
+                >ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
+              </div>
+            </b-col>
+          </b-row>
+          <hr />
+          <p class="header-11">แชร์ไปให้เพื่อนของคุณเล่น</p>
+          <div class="share-box text-center">
+            <div class="d-flex justify-content-center align-items-center">
+              <p class="header-11 m-0">Share</p>
 
-            <ShareNetwork
-              network="facebook"
-              title=""
-              :url="
-                'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                result_list.length
-              "
-              class="share-btn pointer text-1 mx-2"
-            >
-              <img :src="facebook" alt="facebook" />
-            </ShareNetwork>
+              <ShareNetwork
+                network="facebook"
+                title=""
+                :url="
+                  'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                  result_list.length
+                "
+                class="share-btn pointer text-1 mx-2"
+              >
+                <img :src="facebook" alt="facebook" />
+              </ShareNetwork>
 
-            <ShareNetwork
-              network="twitter"
-              title=""
-              :url="
-                'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                result_list.length
-              "
-              class="share-btn pointer text-1 mx-2"
-            >
-              <img :src="twitter" alt="twitter" />
-            </ShareNetwork>
-            <ShareNetwork
-              network="line"
-              title=""
-              :url="
-                'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                result_list.length
-              "
-              class="share-btn pointer text-1 mx-2"
-            >
-              <img :src="line" alt="line" />
-            </ShareNetwork>
+              <ShareNetwork
+                network="twitter"
+                title=""
+                :url="
+                  'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                  result_list.length
+                "
+                class="share-btn pointer text-1 mx-2"
+              >
+                <img :src="twitter" alt="twitter" />
+              </ShareNetwork>
+              <ShareNetwork
+                network="line"
+                title=""
+                :url="
+                  'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                  result_list.length
+                "
+                class="share-btn pointer text-1 mx-2"
+              >
+                <img :src="line" alt="line" />
+              </ShareNetwork>
+            </div>
           </div>
         </div>
       </div>
@@ -296,7 +314,7 @@ const quiz_result =
 let config = {
   headers: {
     "xc-auth":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMTdkOTNmYTZhYjc1ZjVmZWYyODU5ZDRjZTA2ZmJlNGYxOTU2YTA4OWU4NzRlODliODI0ZjMyZTFjNDZkNzY0N2YxNmMxZDkxZjI4MjJlNzAiLCJpYXQiOjE2NzU3MTEwMjYsImV4cCI6MTY3NTc0NzAyNn0.Ut5QlmS9B32TMaPL6tTCd6fWhtlht3BggdcrjFXFjIE",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMTdkOTNmYTZhYjc1ZjVmZWYyODU5ZDRjZTA2ZmJlNGYxOTU2YTA4OWU4NzRlODliODI0ZjMyZTFjNDZkNzY0N2YxNmMxZDkxZjI4MjJlNzAiLCJpYXQiOjE2NzU4MDU2MDAsImV4cCI6MTY3NTg0MTYwMH0.q5FiqVZ02HxDzEAoxxkmmEAq-yRr63hHmPwSTx4k3hI",
     "Content-Type": "application/json",
   },
 };
@@ -449,12 +467,15 @@ export default {
       var x = this.quiz.map((num) => num.filter);
 
       x.forEach((element, i) => {
-        console.log(element, i);
+        // console.log(element, i);
         const ref = this.$fire.database.ref(
           "quizzes/quiz1/question" + (i + 1) + "/" + element
         );
         ref.set(firebase.database.ServerValue.increment(1));
       });
+
+      const reftotal = this.$fire.database.ref("quizzes/quiz1/total_people");
+      reftotal.set(firebase.database.ServerValue.increment(1));
 
       var x = this.quiz.map((num) => num.current_ans);
 
@@ -482,6 +503,11 @@ export default {
 
       setTimeout(() => {
         this.isShowResult = true;
+        this.isShowConfirm = false;
+        if (this.$store.state.selectedQuiz == 1) {
+          this.$store.commit("setShowQuiz2", true);
+        }
+        this.$store.commit("setShowResultQuiz1", true);
       }, 1000);
     },
     filterData() {
@@ -565,6 +591,9 @@ export default {
       else this.quiz[5].filter = "noneed_live_in_own_province";
 
       this.quiz[5].current_ans = ans;
+    },
+    errorHandler(n, sn) {
+      this.$refs[n + "-" + sn][0].src = "https://via.placeholder.com/151";
     },
   },
 };

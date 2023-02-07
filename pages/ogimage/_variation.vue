@@ -54,8 +54,8 @@ export default {
           property: "og:image",
           content:
             this.$route.params.variation > 500
-              ? "https://d86cncqh50f8t.cloudfront.net/og_501.png"
-              : "https://d208eq9ndr4893.cloudfront.net/" +
+              ? "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/og_501.png"
+              : "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/" +
                 this.$route.params.variation +
                 ".png",
         },
@@ -64,8 +64,8 @@ export default {
           name: "twitter:image:src",
           content:
             this.$route.params.variation > 500
-              ? "https://d86cncqh50f8t.cloudfront.net/og_501.png"
-              : "https://d208eq9ndr4893.cloudfront.net/" +
+              ? "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/og_501.png"
+              : "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/" +
                 this.$route.params.variation +
                 ".png",
         },

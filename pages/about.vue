@@ -1,9 +1,13 @@
 <template>
   <div>
     <WvNavbar :dark="true" title="DESIGN YOUR MP">
-      <WvNavButton :dark="true"> Quiz </WvNavButton>
-      <WvNavButton :dark="true">Result</WvNavButton>
-      <WvNavButton :dark="true">About</WvNavButton>
+      <NuxtLink to="/" class="menu-link">
+        <WvNavButton :dark="true"> Quiz </WvNavButton></NuxtLink
+      >
+      <NuxtLink to="/about" class="menu-link">
+        <!-- <WvNavButton :dark="true">Result</WvNavButton> -->
+        <WvNavButton :dark="true">About</WvNavButton>
+      </NuxtLink>
     </WvNavbar>
     <WvContainer heading="เกี่ยวกับโครงการ">
       <WvParagraphGroup heading="เป้าหมาย">
@@ -116,7 +120,9 @@
           </p>
         </WvParagraphGroup>
         <WvParagraphGroup :small="true" heading="หมายเหตุ">
-          <p class="wv-font-baijamjuri">ข้อมูลที่นำมาวิเคราะห์นับตั้งแต่ 10 กรกฎาคม 2562 - 17 ตุลาคม 2565</p>
+          <p class="wv-font-baijamjuri">
+            ข้อมูลที่นำมาวิเคราะห์นับตั้งแต่ 10 กรกฎาคม 2562 - 17 ตุลาคม 2565
+          </p>
         </WvParagraphGroup>
       </WvParagraphGroup>
       <WvButtonGroup :center="true">
@@ -172,9 +178,9 @@
           <span>Feedback</span>
         </WvButton>
       </WvButtonGroup>
-      <WvSharer :center="true" url="PROJECT_MAIN_PAGE" />
+      <WvSharer :center="true" url="https://wevisdemo.github.io/qualification-of-representative/" />
     </WvContainer>
-    <WvFooter :dark="true"/>
+    <WvFooter :dark="true" />
   </div>
 </template>
 
@@ -186,7 +192,7 @@ import WvParagraphGroup from "@wevisdemo/ui/vue2/paragraph-group";
 import WvButtonGroup from "@wevisdemo/ui/vue2/button-group";
 import WvButton from "@wevisdemo/ui/vue2/button";
 import WvSharer from "@wevisdemo/ui/vue2/sharer";
-import WvFooter from '@wevisdemo/ui/vue2/footer';
+import WvFooter from "@wevisdemo/ui/vue2/footer";
 
 export default {
   name: "IndexPage",
@@ -198,7 +204,7 @@ export default {
     WvParagraphGroup,
     WvButton,
     WvSharer,
-    WvFooter
+    WvFooter,
   },
   data() {
     return {};

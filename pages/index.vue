@@ -1,14 +1,32 @@
 <template>
   <div>
     <WvNavbar :dark="true" title="DESIGN YOUR MP">
-      <WvNavButton :dark="true"> Quiz </WvNavButton>
-      <WvNavButton :dark="true">Result</WvNavButton>
-      <WvNavButton :dark="true">About</WvNavButton>
+      <NuxtLink to="/" class="menu-link">
+        <WvNavButton :dark="true"> Quiz </WvNavButton></NuxtLink
+      >
+      <NuxtLink to="/about" class="menu-link">
+        <!-- <WvNavButton :dark="true">Result</WvNavButton> -->
+        <WvNavButton :dark="true">About</WvNavButton>
+      </NuxtLink>
     </WvNavbar>
     <Intro />
-    <Quiz1 v-if="$store.state.isShowQuiz1"/>
-    <Quiz2 v-if="$store.state.isShowQuiz2"/>
-    <Ending v-if="$store.state.isShowQuiz1 && $store.state.isShowQuiz2"/>
+    <template v-if="$store.state.selectedQuiz == 1">
+      <Quiz1 v-if="$store.state.isShowQuiz1" />
+      <ResultQuiz1 v-if="$store.state.isShowResultQuiz1" />
+      <Quiz2 v-if="$store.state.isShowQuiz2" />
+    </template>
+    <template v-if="$store.state.selectedQuiz == 2">
+      <Quiz2 v-if="$store.state.isShowQuiz2" />
+      <Quiz1 v-if="$store.state.isShowQuiz1" />
+      <ResultQuiz1 v-if="$store.state.isShowResultQuiz1" />
+    </template>
+    <template v-if="$store.state.selectedQuiz == 3"> <ResultQuiz1 /></template>
+    <Ending
+      v-if="
+        ($store.state.isShowQuiz1 && $store.state.isShowQuiz2) ||
+        $store.state.selectedQuiz == 3
+      "
+    />
     <WvFooter :dark="true" />
     <WvCookieConsent
       policyUrl="https://punchup.world"
@@ -41,13 +59,13 @@ export default {
           hid: "og-image",
           property: "og:image",
           content:
-            "https://wevisdemo.github.io/qualification-of-representative/og_title.png",
+            "/og_title.png",
         },
         {
           hid: "twitter:image",
           name: "twitter:image:src",
           content:
-            "https://wevisdemo.github.io/qualification-of-representative/og_title.png",
+            "/og_title.png",
         },
         {
           hid: "og:title",
