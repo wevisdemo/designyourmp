@@ -134,7 +134,7 @@
         </b-col>
       </b-row>
     </div>
-    <div class="h-100vh bg-main result" v-if="isShowResult">
+    <div class="h-100vh1 bg-main result" v-if="isShowResult" id="result-quiz-1">
       <div
         class="
           result-box
@@ -146,9 +146,6 @@
         "
       >
         <div>
-          <h4 class="header-4 font-weight-bold kondolar">
-            {{ result_list.length != 0 ? "ยินดีด้วย!" : "เสียใจด้วย!" }}
-          </h4>
           <h4 class="header-5 font-weight-bold kondolar">
             คุณสมบัติที่คุณเลือก{{
               result_list.length != 0
@@ -158,6 +155,10 @@
                 : "ไม่ใกล้เคียงกับ ส.ส. คนไหนในสภานี้เลย"
             }}
           </h4>
+          <h5 class="header-6 font-weight-bold kondolar">
+            แต่ในอนาคตอาจมีตัวเลือกอื่นๆ
+            ที่ใกล้เคียงกับคุณสมบัติของคุณกว่านี้ก็ได้
+          </h5>
           <p class="header-11">
             *ข้อมูลนำมาวิเคราะห์คือ ส.ส. ในสภาชุดที่ 25 และในอนาคตอาจมีหรือไม่มี
             ตัวเลือกอื่นๆ ที่ใกล้เคียงกับคุณสมบัติของคุณกว่านี้ก็ได้
@@ -222,14 +223,14 @@
             </b-col>
             <b-col lg="6" class="text-center header-9">
               <p class="font-weight-bold">คุณสมบัติที่คุณอยากเห็น</p>
-              <div class="choice">
+              <div class="ans-choice">
                 <span v-if="quiz[0].current_ans != 'ไม่กำหนดอายุ'"
                   >อายุของ ส.ส. ควรอยู่ในช่วง
                   <b>{{ quiz[0].current_ans }}</b> ปี</span
                 >
                 <span v-else>ไม่กำหนดอายุของ ส.ส.</span>
               </div>
-              <div class="choice">
+              <div class="ans-choice">
                 <span v-if="quiz[1].current_ans != 'ไม่กำหนด'"
                   >ระดับการศึกษาของ ส.ส. ควรอยู่ในช่วง<b>{{
                     quiz[1].current_ans
@@ -237,23 +238,23 @@
                 >
                 <span v-else>ไม่กำหนดระดับการศึกษา</span>
               </div>
-              <div class="choice">
+              <div class="ans-choice">
                 <span v-if="quiz[2].current_ans != 'จบสาขาใดมาก็ได้'"
                   >จบการศึกษา<b>{{ quiz[2].current_ans }}</b></span
                 >
                 <span v-else>จบสาขาใดมาก็ได้</span>
               </div>
-              <div class="choice">
+              <div class="ans-choice">
                 <span v-if="quiz[3].current_ans != 'ทำงานสายใดมาก็ได้'"
                   >อาชีพเดิมต้องทำงาน<b>{{ quiz[3].current_ans }}</b></span
                 >
                 <span v-else>ทำงานสายใดมาก็ได้</span>
               </div>
-              <div class="choice">
+              <div class="ans-choice">
                 <b>{{ quiz[4].current_ans }}</b
                 >ต้องมีเครือข่ายทางการเมือง
               </div>
-              <div class="choice">
+              <div class="ans-choice">
                 <b>{{ quiz[5].current_ans }}</b
                 >ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
               </div>
@@ -466,38 +467,38 @@ export default {
     async showResult() {
       var x = this.quiz.map((num) => num.filter);
 
-      x.forEach((element, i) => {
-        // console.log(element, i);
-        const ref = this.$fire.database.ref(
-          "quizzes/quiz1/question" + (i + 1) + "/" + element
-        );
-        ref.set(firebase.database.ServerValue.increment(1));
-      });
+      // x.forEach((element, i) => {
+      //   // console.log(element, i);
+      //   const ref = this.$fire.database.ref(
+      //     "quizzes/quiz1/question" + (i + 1) + "/" + element
+      //   );
+      //   ref.set(firebase.database.ServerValue.increment(1));
+      // });
 
-      const reftotal = this.$fire.database.ref("quizzes/quiz1/total_people");
-      reftotal.set(firebase.database.ServerValue.increment(1));
+      // const reftotal = this.$fire.database.ref("quizzes/quiz1/total_people");
+      // reftotal.set(firebase.database.ServerValue.increment(1));
 
       var x = this.quiz.map((num) => num.current_ans);
 
-      await this.$axios
-        .$post(
-          quiz_result,
-          {
-            ans_1: x[0],
-            ans_2: x[1],
-            ans_3: x[2],
-            ans_4: x[3],
-            ans_5: x[4],
-            ans_6: x[5],
-          },
-          config
-        )
-        .then((response) => {
-          console.log("send!");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      // await this.$axios
+      //   .$post(
+      //     quiz_result,
+      //     {
+      //       ans_1: x[0],
+      //       ans_2: x[1],
+      //       ans_3: x[2],
+      //       ans_4: x[3],
+      //       ans_5: x[4],
+      //       ans_6: x[5],
+      //     },
+      //     config
+      //   )
+      //   .then((response) => {
+      //     console.log("send!");
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
 
       this.result_list = this.data;
 
@@ -509,6 +510,10 @@ export default {
         }
         this.$store.commit("setShowResultQuiz1", true);
       }, 1000);
+
+      setTimeout(() => {
+        document.getElementById("result-quiz-1").scrollIntoView();
+      }, 2000);
     },
     filterData() {
       // console.log(this.quiz.map((num) => num.filter));
@@ -699,7 +704,8 @@ export default {
   }
 }
 
-.choice {
+.choice,
+.ans-choice {
   // max-width: 216px;
   width: 100%;
   margin: auto 0;
@@ -710,6 +716,10 @@ export default {
   padding: 4px 10px;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.ans-choice {
+  cursor: default;
 }
 
 .choice:hover {
@@ -777,10 +787,16 @@ export default {
   pointer-events: none;
 }
 .people-box-result {
-  width: 20%;
+  width: 19%;
 
   img {
     width: 100%;
+  }
+
+  @media #{$mq-mini-mobile} {
+  //   img {
+  //   width: 20%;
+  // }
   }
 }
 

@@ -55,9 +55,6 @@
         </div>
       </div>
       <div class="h-100vh fade-bg"></div>
-      <div class="text-center go_down">
-        <img :src="go_down" alt="go_down" />
-      </div>
     </div>
     <div
       class="
@@ -72,7 +69,7 @@
     >
       <div>
         <h5 class="header-5 font-weight-bold green">
-          การออกแบบ ส.ส. ประกอบด้วยหลากหลายปัจจัย จึงขอแบ่งการออกแบบ 2 แบบหลัก
+          การตัดสินใจเลือก ส.ส. อาจมาจากหลากหลายปัจจัย แต่เราอยากชวนคุณคิดถึงสิ่งเหล่านี้ดู
         </h5>
         <p class="header-11 text-white">(กดเลือกคุณสมบัติที่คุณอยากออกแบบ)</p>
       </div>
@@ -105,10 +102,6 @@
         <button class="see-ans-btn" @click="showQuiz(3)">
           ข้ามไปดูผลลัพธ์ของคนอื่นๆ
         </button>
-      </div>
-      <div>
-        <img :src="go_down" alt="go_down" />
-        <p class="header-11 text-white">เล่น Quiz</p>
       </div>
     </div>
   </div>

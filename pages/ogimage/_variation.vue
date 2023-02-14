@@ -54,20 +54,20 @@ export default {
           property: "og:image",
           content:
             this.$route.params.variation > 500
-              ? "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/og_501.png"
-              : "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/" +
-                this.$route.params.variation +
-                ".png",
+              ? require("~/assets/images/ogimage/og_501.png")
+              : require("~/assets/images/ogimage/og_" +
+                  this.$route.params.variation +
+                  ".png"),
         },
         {
           hid: "twitter:image",
           name: "twitter:image:src",
           content:
             this.$route.params.variation > 500
-              ? "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/og_501.png"
-              : "https://design-your-mp.s3.ap-southeast-1.amazonaws.com/" +
-                this.$route.params.variation +
-                ".png",
+              ? require("~/assets/images/ogimage/og_501.png")
+              : require("~/assets/images/ogimage/og_" +
+                  this.$route.params.variation +
+                  ".png"),
         },
         {
           hid: "og:title",
@@ -108,7 +108,8 @@ export default {
     // setTimeout(() => {
     //   this.test();
     // }, 1000);
-    window.location.href = "https://wevisdemo.github.io/qualification-of-representative/";
+    window.location.href =
+      "https://wevisdemo.github.io/qualification-of-representative/";
   },
   methods: {
     test() {

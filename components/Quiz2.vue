@@ -82,6 +82,7 @@
             ghost-class="ghost"
             @start="dragging = true"
             @end="dragging = false"
+            :forceFallback="true"
           >
             <div
               class="

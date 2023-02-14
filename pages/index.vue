@@ -1,14 +1,32 @@
 <template>
   <div>
+    <div
+      class="
+        position-fixed
+        loading
+        d-flex
+        justify-content-center
+        align-items-center
+      "
+      v-if="isLoading"
+    >
+      <div class="text-center loading-box">
+        <b-spinner
+          style="width: 3rem; height: 3rem"
+          label="Large Spinner"
+        ></b-spinner>
+      </div>
+    </div>
     <WvNavbar :dark="true" title="DESIGN YOUR MP">
       <NuxtLink to="/" class="menu-link">
-        <WvNavButton :dark="true"> Quiz </WvNavButton></NuxtLink
+        <WvNavButton :dark="true"> Home </WvNavButton></NuxtLink
       >
       <NuxtLink to="/about" class="menu-link">
         <!-- <WvNavButton :dark="true">Result</WvNavButton> -->
         <WvNavButton :dark="true">About</WvNavButton>
       </NuxtLink>
     </WvNavbar>
+
     <Intro />
     <template v-if="$store.state.selectedQuiz == 1">
       <Quiz1 v-if="$store.state.isShowQuiz1" />
@@ -53,19 +71,17 @@ export default {
   data() {
     return {
       cookieOptions: ["Performance"],
-
+      isLoading: true,
       meta: [
         {
           hid: "og-image",
           property: "og:image",
-          content:
-            "/og_title.png",
+          content: require("~/assets/images/og_title.png"),
         },
         {
           hid: "twitter:image",
           name: "twitter:image:src",
-          content:
-            "/og_title.png",
+          content: require("~/assets/images/og_title.png"),
         },
         {
           hid: "og:title",
@@ -90,8 +106,26 @@ export default {
       ],
     };
   },
+  created() {
+    if (process.client) {
+      document.getElementsByTagName("body")[0].style.overflow = "hidden";
+      setTimeout(() => {
+        document.getElementsByTagName("body")[0].style.overflow = "unset";
+        this.isLoading = false;
+      }, 2000);
+    }
+  },
   methods: {
     onCookieAccept() {},
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.loading {
+  width: 100%;
+  z-index: 9999999;
+  height: 100vh;
+  background: white;
+}
+</style>
