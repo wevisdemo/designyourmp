@@ -145,11 +145,19 @@ export default {
         saveAs(content, "og-wv-9.zip");
       });
     },
+    myFunction(e) {
+      e.target.src = require("~/assets/images/sample.svg");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+img {
+  width: 100px;
+  height: 100px;
+  background: url(http://goo.gl/vyAs27) no-repeat scroll 0 0;
+}
 .ogimage {
   background-image: url("@/assets/images/og_301-500.png");
   width: 1200px;

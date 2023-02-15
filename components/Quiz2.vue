@@ -99,7 +99,7 @@
                 <img
                   :src="
                     require('~/assets/images/quiz_part2/icon_illus_' +
-                      (i + 1) +
+                      element.id +
                       '.svg')
                   "
                   alt=""
@@ -261,44 +261,44 @@ export default {
       reftotal.set(firebase.database.ServerValue.increment(1));
       this.total_people += 1;
 
-      await this.$axios
-        .$post(
-          quiz_result,
-          {
-            ans_1: this.list[0].name,
-            ans_2: this.list[1].name,
-            ans_3: this.list[2].name,
-            ans_4: this.list[3].name,
-            ans_5: this.list[4].name,
-            ans_6: this.list[5].name,
-            ans_7: this.list[6].name,
-            ans_8: this.list[7].name,
-            ans_9: this.list[8].name,
-            ans_10: this.list[9].name,
-          },
-          config
-        )
-        .then((response) => {
-          console.log("send!");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      // await this.$axios
+      //   .$post(
+      //     quiz_result,
+      //     {
+      //       ans_1: this.list[0].name,
+      //       ans_2: this.list[1].name,
+      //       ans_3: this.list[2].name,
+      //       ans_4: this.list[3].name,
+      //       ans_5: this.list[4].name,
+      //       ans_6: this.list[5].name,
+      //       ans_7: this.list[6].name,
+      //       ans_8: this.list[7].name,
+      //       ans_9: this.list[8].name,
+      //       ans_10: this.list[9].name,
+      //     },
+      //     config
+      //   )
+      //   .then((response) => {
+      //     console.log("send!");
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
 
-      this.result = this.list;
-      this.result.sort(function (a, b) {
-        return b.total - a.total;
+      this.$store.commit("setAnsweredQuiz2", true);
+
+      this.list.forEach((element) => {
+        this.result.push(element);
       });
 
       this.showResult = true;
       setTimeout(() => {
         document.getElementById("result-quiz-2").scrollIntoView();
-      }, 500);
 
-      console.log(
-        this.list.map((num) => num.total),
-        this.first_choice
-      );
+        this.result.sort(function (a, b) {
+          return b.total - a.total;
+        });
+      }, 500);
 
       if (this.$store.state.selectedQuiz == 2)
         this.$store.commit("setShowQuiz1", true);

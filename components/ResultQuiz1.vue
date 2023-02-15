@@ -4,7 +4,7 @@
       <div class="px-3">
         <div class="bg-blue intro-box text-center mx-auto">
           <h5 class="header-5 font-weight-bold">
-            มาดูกันว่า… "ผู้แทน" แบบที่เราอยากเห็น มีสัดส่วน ส.ส.
+            มาดูกันว่า… "ผู้แทน" แบบที่คุณอยากเห็น มีสัดส่วน ส.ส.
             แค่ไหนในสภานี้!
           </h5>
           <p class="m-0">
@@ -65,7 +65,7 @@
                     <div class="d-flex mx-1 align-items-center h-100">
                       <template v-for="(item2, j) in item.list">
                         <div
-                          v-if="j != item.list.length - 1 || item.id != 6"
+                          v-if="j != item.list.length - 1"
                           class="list-box h-100"
                           :key="'detail' + i + j"
                           :style="{
@@ -99,10 +99,13 @@
                   >
                   <b-col cols="8">
                     <DashboardByVote
-                      :data="quiz[i]['question' + item.id][0]"
+                      :data="
+                        rearrangeData(quiz[i]['question' + item.id], item.id)
+                      "
                       :id="item.id"
                       :total="total_all"
                       :color="dashboard[i].list"
+                      :userAns="userAns[i]"
                     />
                   </b-col>
                 </b-row>
@@ -262,7 +265,7 @@ export default {
           question6: [
             {
               live_in_own_province: 0,
-              noneed_live_in_own_province: 0,
+              no_need_live_in_own_province: 0,
               not_live_in_own_province: 0,
             },
           ],
@@ -387,7 +390,7 @@ export default {
                 mp_data.default.length,
             },
             {
-              title: "จบสาขาอื่นๆ",
+              title: "สาขาอื่นๆ",
               color: "#9DAAA1",
               total:
                 mp_data.default.filter((x) => x.other_faculty).length /
@@ -440,7 +443,7 @@ export default {
                 mp_data.default.length,
             },
             {
-              title: "สาขาอื่นๆ",
+              title: "สายอื่นๆ",
               color: "#9DAAA1",
               total:
                 mp_data.default.filter((x) => x.other_work).length /
@@ -458,14 +461,14 @@ export default {
           title: "เครือข่ายทางการเมืองของ ส.ส. ในสภา",
           list: [
             {
-              title: "ควร",
+              title: "มี",
               color: "#6CDB5A",
               total:
                 mp_data.default.filter((x) => x.has_connection_bloodline)
                   .length / mp_data.default.length,
             },
             {
-              title: "ไม่ควร",
+              title: "ไม่มี",
               color: "#FF6C2D",
               total:
                 mp_data.default.filter((x) => x.no_connection_bloodline)
@@ -474,9 +477,7 @@ export default {
             {
               title: "ไม่จำเป็น",
               color: "#D0DDD4",
-              total:
-                mp_data.default.filter((x) => x.no_need_connection_bloodline)
-                  .length / mp_data.default.length,
+              total: 0,
             },
           ],
         },
@@ -485,14 +486,14 @@ export default {
           title: "ส.ส. เขต ควรจะต้องอาศัยอยู่ที่ลงสมัครไหม?",
           list: [
             {
-              title: "ควร",
+              title: "อยู่",
               color: "#6CDB5A",
               total:
                 mp_data.default.filter((x) => x.live_in_own_province).length /
                 mp_data.default.length,
             },
             {
-              title: "ไม่ควร",
+              title: "ไม่อยู่",
               color: "#FF6C2D",
               total:
                 mp_data.default.filter((x) => x.not_live_in_own_province)
@@ -502,7 +503,7 @@ export default {
               title: "ไม่จำเป็น",
               color: "#D0DDD4",
               total:
-                mp_data.default.filter((x) => x.noneed_live_in_own_province)
+                mp_data.default.filter((x) => x.no_need_live_in_own_province)
                   .length / mp_data.default.length,
             },
           ],
@@ -511,21 +512,20 @@ export default {
       total_list: [],
       total_all: 0,
       details_text: require("~/assets/images/details_text.svg"),
+      userAns: [],
     };
   },
   mounted() {
-    // console.log(this.quiz);
     this.setData();
+    this.onCheckAnswerQuiz1();
   },
   methods: {
     async setData() {
       const ref = this.$fire.database.ref("quizzes/quiz1");
       try {
         const snapshots = await ref.once("value");
-        // console.log(snapshots.val());
 
         this.quiz.forEach((element, i) => {
-          //console.log(snapshots.val()["question" + (i + 1)]);
           element["question" + (i + 1)][0] =
             snapshots.val()["question" + (i + 1)];
         });
@@ -534,6 +534,69 @@ export default {
       } catch (e) {
         alert(e);
       }
+    },
+    rearrangeData(data, id) {
+      var sortOrder = {};
+
+      if (id == 2) {
+        sortOrder = {
+          below_bachelor_deg: 1,
+          bachelor_deg: 2,
+          master_deg: 3,
+          phd: 4,
+          no_need_deg: 5,
+        };
+      } else if (id == 3) {
+        sortOrder = {
+          law_faculty: 1,
+          politics_faculty: 2,
+          public_admin_faculty: 3,
+          business_faculty: 4,
+          education_faculty: 5,
+          other_faculty: 6,
+          any_faculty: 7,
+        };
+      } else if (id == 4) {
+        sortOrder = {
+          law_work: 1,
+          politics_work: 2,
+          public_admin_work: 3,
+          business_work: 4,
+          education_work: 5,
+          other_work: 6,
+          any_work: 7,
+        };
+      } else if (id == 6) {
+        sortOrder = {
+          live_in_own_province: 1,
+          not_live_in_own_province: 2,
+          no_need_live_in_own_province: 3,
+        };
+      }
+
+      if (id != 1 && id != 5) {
+        const res = data.map((o) =>
+          Object.assign(
+            {},
+            ...Object.keys(o)
+              .sort((a, b) => sortOrder[a] - sortOrder[b])
+              .map((x) => {
+                return { [x]: o[x] };
+              })
+          )
+        );
+
+        return res[0];
+      } else return data[0];
+    },
+    onCheckAnswerQuiz1() {
+      const ans = localStorage.getItem("isAnsQuiz1");
+
+      if (ans)
+        for (var i = 0; i < 6; i++) {
+          const x = localStorage.getItem("ans_" + (i + 1));
+          this.userAns.push(x);
+        }
     },
   },
 };

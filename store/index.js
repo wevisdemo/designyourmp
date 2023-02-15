@@ -1,6 +1,8 @@
 export const state = () => ({
     isShowQuiz1:false,
     isShowQuiz2:false,
+    isAnsQuiz1:false,
+    isAnsQuiz2:false,
     isShowResultQuiz1:false,
     selectedQuiz:0,
 })
@@ -17,5 +19,11 @@ export const mutations = {
     },
     setSelectedQuiz(state, val) {
         state.selectedQuiz = val;
+    },
+    setAnsweredQuiz1(state, val) {
+        state.isAnsQuiz1 = val;
+    },
+    setAnsweredQuiz2(state, val) {
+        state.isAnsQuiz2 = val;
     },
 }

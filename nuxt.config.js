@@ -1,7 +1,7 @@
 const BASE_URL = "https://wevisdemo.github.io/qualification-of-representative/";
 const array = [];
 
-for (var i = 1; i <= 500; i++) {
+for (var i = 0; i <= 501; i++) {
   array.push("/ogimage/" + i);
 }
 
@@ -10,7 +10,7 @@ export default {
   // ssr: true,
   // target: "static",
   head: {
-    title: '"ผู้แทน" แบบไหนที่เราอยากเห็น?',
+    title: '"ผู้แทน" แบบไหนที่คุณอยากเห็น?',
     htmlAttrs: {
       lang: 'en'
     },

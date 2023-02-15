@@ -24,7 +24,9 @@
         <img :src="go_down" alt="go_down" />
       </div>
     </div>
-    <div class="min-h-screen position-relative text-center">
+    <div
+      class="min-h-screen position-relative text-center"
+    >
       <div class="d-flex menu-box justify-content-center flex-wrap">
         <div
           v-for="(item, i) in menu"
@@ -114,16 +116,16 @@
                 ]"
               >
                 <p class="header-8 m-0">{{ item }}</p>
-                <p class="header-10 m-0" v-if="item == 'ทำงานสายกฎหมาย'">
+                <p class="header-10 m-0" v-if="item == 'สายกฎหมาย'">
                   (เช่น ทนายความ, อัยการ, ผู้พิพากษา, นิติกร,
                   ที่ปรึกษาทางกฎหมาย)
                 </p>
-                <p class="header-10 m-0" v-else-if="item == 'ทำงานสายการเมือง'">
+                <p class="header-10 m-0" v-else-if="item == 'สายการเมือง'">
                   (เช่น ส.ส., นายกอปท., สภาอปท. , รัฐมนตรี)
                 </p>
                 <p
                   class="header-10 m-0"
-                  v-else-if="item == 'ทำงานสายบริหารงานภาครัฐ'"
+                  v-else-if="item == 'สายบริหารงานภาครัฐ'"
                 >
                   (เช่น ผู้ว่าราชการจังหวัด, นายอำเภอ, ปลัดอำเภอ,
                   ข้าราชการพลเรือนสามัญ)
@@ -171,18 +173,11 @@
               >
                 <!-- <VueSlickCarousel ref="slick" :options="slickOptions"> -->
                 <div v-for="item in result_list" class="people-box-result p-1">
-                  <!-- <img
-                    :src="
-                      require(`@/assets/images/politician_photos_crop/${item.name}-${item.surname}.jpg`)
-                    "
-                    :ref="`${item.name}-${item.surname}`"
-                    :onerror="errorHandler(item.name, item.surname)"
-                    alt=""
-                  /> -->
                   <img
-                    :src="require(`@/assets/images/sample.svg`)"
-                    alt=""
+                    :src="getImgUrl(`${item.name}-${item.surname}`)"
+                    :alt="`${item.name}-${item.surname}`"
                     :id="'person-' + item.id"
+                    class="politician-img"
                   />
                   <b-popover
                     :target="'person-' + item.id"
@@ -245,17 +240,19 @@
                 <span v-else>จบสาขาใดมาก็ได้</span>
               </div>
               <div class="ans-choice">
-                <span v-if="quiz[3].current_ans != 'ทำงานสายใดมาก็ได้'"
+                <span v-if="quiz[3].current_ans != 'สายใดมาก็ได้'"
                   >อาชีพเดิมต้องทำงาน<b>{{ quiz[3].current_ans }}</b></span
                 >
-                <span v-else>ทำงานสายใดมาก็ได้</span>
+                <span v-else>สายใดมาก็ได้</span>
               </div>
               <div class="ans-choice">
-                <b>{{ quiz[4].current_ans }}</b
+                <b v-if="quiz[4].current_ans == 'ไม่มี'">ไม่</b
+                > <b v-if="quiz[4].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
                 >ต้องมีเครือข่ายทางการเมือง
               </div>
               <div class="ans-choice">
-                <b>{{ quiz[5].current_ans }}</b
+                <b v-if="quiz[5].current_ans == 'ไม่มี'">ไม่</b
+                > <b v-if="quiz[5].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
                 >ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
               </div>
             </b-col>
@@ -380,12 +377,12 @@ export default {
           id: 3,
           question: "จบการศึกษาอะไร?",
           ans: [
-            "เกี่ยวกับกฎหมาย",
-            "เกี่ยวกับการเมือง",
-            "เกี่ยวกับบริหารงานภาครัฐ",
-            "เกี่ยวกับการบริหารธุรกิจ",
-            "เกี่ยวกับการศึกษา",
-            "อื่นๆ",
+            "สาขากฎหมาย",
+            "สาขาการเมือง",
+            "สาขาบริหารงานภาครัฐ",
+            "สาขาการบริหารธุรกิจ",
+            "สาขาการศึกษา",
+            "สาขาอื่นๆ",
             "จบสาขาใดมาก็ได้",
           ],
           current_ans: "",
@@ -395,13 +392,13 @@ export default {
           id: 4,
           question: "อาชีพเดิมต้องทำงานแนวไหนมา?",
           ans: [
-            "ทำงานสายกฎหมาย",
-            "ทำงานสายการเมือง",
-            "ทำงานสายบริหารงานภาครัฐ",
+            "สายกฎหมาย",
+            "สายการเมือง",
+            "สายบริหารงานภาครัฐ",
             "นักธุรกิจ",
             "นักวิชาการ",
-            "ทำงานสาขาอื่นๆ",
-            "ทำงานสายใดมาก็ได้",
+            "สายอื่นๆ",
+            "สายใดมาก็ได้",
           ],
           current_ans: "",
           filter: "",
@@ -409,7 +406,7 @@ export default {
         {
           id: 5,
           question: "ควรจะต้องมีเครือข่ายทางการเมืองไหม?",
-          ans: ["ควร", "ไม่ควร", "ไม่จำเป็น"],
+          ans: ["มี", "ไม่มี", "ไม่จำเป็น"],
           current_ans: "",
           filter: "",
         },
@@ -417,7 +414,7 @@ export default {
           id: 6,
           question:
             "ส.ส. เขต ควรจะต้องเรียน หรืออาศัยอยู่หรือทำงาน ในจังหวัดที่ลงสมัครไหม?",
-          ans: ["ควร", "ไม่ควร", "ไม่จำเป็น"],
+          ans: ["อยู่", "ไม่อยู่", "ไม่จำเป็น"],
           current_ans: "",
           filter: "",
         },
@@ -448,7 +445,6 @@ export default {
       this.current_quiz = this.quiz[index];
     },
     answer(ans, i) {
-      // console.log(ans);
       if (this.menu_active == "อายุ") this.onCheckQuestion1(ans);
       else if (this.menu_active == "การศึกษา") this.onCheckQuestion2(ans);
       else if (this.menu_active == "สาขาที่จบ") this.onCheckQuestion3(ans);
@@ -467,18 +463,25 @@ export default {
     async showResult() {
       var x = this.quiz.map((num) => num.filter);
 
-      // x.forEach((element, i) => {
-      //   // console.log(element, i);
-      //   const ref = this.$fire.database.ref(
-      //     "quizzes/quiz1/question" + (i + 1) + "/" + element
-      //   );
-      //   ref.set(firebase.database.ServerValue.increment(1));
-      // });
+      x.forEach((element, i) => {
+        const ref = this.$fire.database.ref(
+          "quizzes/quiz1/question" + (i + 1) + "/" + element
+        );
+        ref.set(firebase.database.ServerValue.increment(1));
+      });
 
-      // const reftotal = this.$fire.database.ref("quizzes/quiz1/total_people");
-      // reftotal.set(firebase.database.ServerValue.increment(1));
+      const reftotal = this.$fire.database.ref("quizzes/quiz1/total_people");
+      reftotal.set(firebase.database.ServerValue.increment(1));
 
       var x = this.quiz.map((num) => num.current_ans);
+
+      localStorage.setItem('isAnsQuiz1', true);
+      localStorage.setItem('ans_1', x[0]);
+      localStorage.setItem('ans_2', x[1]);
+      localStorage.setItem('ans_3', x[2]);
+      localStorage.setItem('ans_4', x[3]);
+      localStorage.setItem('ans_5', x[4]);
+      localStorage.setItem('ans_6', x[5]);
 
       // await this.$axios
       //   .$post(
@@ -513,12 +516,10 @@ export default {
 
       setTimeout(() => {
         document.getElementById("result-quiz-1").scrollIntoView();
+        this.$store.commit("setAnsweredQuiz1", true);
       }, 2000);
     },
     filterData() {
-      // console.log(this.quiz.map((num) => num.filter));
-      // console.log(this.quiz.map((num) => num.current_ans));
-
       var x = this.quiz.map((num) => num.filter);
       var i = 0;
       this.data = mp_data.default;
@@ -534,8 +535,6 @@ export default {
       else this.isShowConfirm = false;
 
       this.fade_ppl = mp_data.length - this.data.length;
-
-      // console.log(this.data.length);
     },
     onCheckQuestion1(ans) {
       if (ans == "อายุ 18-30") this.quiz[0].filter = "age18_30";
@@ -556,14 +555,14 @@ export default {
       this.quiz[1].current_ans = ans;
     },
     onCheckQuestion3(ans) {
-      if (ans == "เกี่ยวกับกฎหมาย") this.quiz[2].filter = "law_faculty";
-      else if (ans == "เกี่ยวกับการเมือง")
+      if (ans == "สาขากฎหมาย") this.quiz[2].filter = "law_faculty";
+      else if (ans == "สาขาการเมือง")
         this.quiz[2].filter = "politics_faculty";
-      else if (ans == "เกี่ยวกับบริหารงานภาครัฐ")
+      else if (ans == "สาขาบริหารงานภาครัฐ")
         this.quiz[2].filter = "public_admin_faculty";
-      else if (ans == "เกี่ยวกับการบริหารธุรกิจ")
+      else if (ans == "สาขาการบริหารธุรกิจ")
         this.quiz[2].filter = "business_faculty";
-      else if (ans == "เกี่ยวกับการศึกษา")
+      else if (ans == "สาขาการศึกษา")
         this.quiz[2].filter = "education_faculty";
       else if (ans == "อื่นๆ") this.quiz[2].filter = "other_faculty";
       else this.quiz[2].filter = "any_faculty";
@@ -571,9 +570,9 @@ export default {
       this.quiz[2].current_ans = ans;
     },
     onCheckQuestion4(ans) {
-      if (ans == "ทำงานสายกฎหมาย") this.quiz[3].filter = "law_work";
-      else if (ans == "ทำงานสายการเมือง") this.quiz[3].filter = "politics_work";
-      else if (ans == "ทำงานสายบริหารงานภาครัฐ")
+      if (ans == "สายกฎหมาย") this.quiz[3].filter = "law_work";
+      else if (ans == "สายการเมือง") this.quiz[3].filter = "politics_work";
+      else if (ans == "สายบริหารงานภาครัฐ")
         this.quiz[3].filter = "public_admin_work";
       else if (ans == "นักธุรกิจ") this.quiz[3].filter = "business_work";
       else if (ans == "นักวิชาการ") this.quiz[3].filter = "education_work";
@@ -583,22 +582,31 @@ export default {
       this.quiz[3].current_ans = ans;
     },
     onCheckQuestion5(ans) {
-      if (ans == "ควร") this.quiz[4].filter = "has_connection_bloodline";
-      else if (ans == "ไม่ควร") this.quiz[4].filter = "no_connection_bloodline";
+      if (ans == "มี") this.quiz[4].filter = "has_connection_bloodline";
+      else if (ans == "ไม่มี") this.quiz[4].filter = "no_connection_bloodline";
       else this.quiz[4].filter = "no_need_connection_bloodline";
 
       this.quiz[4].current_ans = ans;
     },
     onCheckQuestion6(ans) {
-      if (ans == "ควร") this.quiz[5].filter = "live_in_own_province";
-      else if (ans == "ไม่ควร")
+      if (ans == "อยู่") this.quiz[5].filter = "live_in_own_province";
+      else if (ans == "ไม่อยู่")
         this.quiz[5].filter = "not_live_in_own_province";
-      else this.quiz[5].filter = "noneed_live_in_own_province";
+      else this.quiz[5].filter = "no_need_live_in_own_province";
 
       this.quiz[5].current_ans = ans;
     },
-    errorHandler(n, sn) {
-      this.$refs[n + "-" + sn][0].src = "https://via.placeholder.com/151";
+    myFunction(e) {
+      e.target.src = require("~/assets/images/sample.svg");
+    },
+    getImgUrl(filename) {
+      try {
+        return require("~/assets/images/politician_photos_crop/" +
+          filename +
+          ".jpg");
+      } catch (_) {
+        return require("~/assets/images/sample.svg");
+      }
     },
   },
 };
@@ -794,9 +802,9 @@ export default {
   }
 
   @media #{$mq-mini-mobile} {
-  //   img {
-  //   width: 20%;
-  // }
+    //   img {
+    //   width: 20%;
+    // }
   }
 }
 
@@ -813,5 +821,9 @@ export default {
 .people-box-result-wrapper::-webkit-scrollbar-thumb {
   background: rgb(19, 18, 18);
   border-radius: 10px;
+}
+
+.politician-img {
+  border-radius: 50%;
 }
 </style>

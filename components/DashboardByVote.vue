@@ -8,12 +8,27 @@
           :style="{
             backgroundColor: item.color,
             width:
-              (test[i] / total) * 100 > 1
-                ? ((test[i] / total) * 100).toFixed(2) + '%'
+              (datalist[i] / total) * 100 > 1
+                ? ((datalist[i] / total) * 100).toFixed(2) + '%'
                 : '1%',
           }"
           :id="'popover-vote-list-' + id + i"
-        ></div>
+        >
+          <div
+            class="
+              answered
+              h-100
+              font-weight-bold
+              d-flex
+              justify-content-center
+              align-items-center
+              overflow-hidden
+            "
+            v-if="userAns == item.title"
+          >
+            คุณ
+          </div>
+        </div>
         <b-popover
           :target="'popover-vote-list-' + id + i"
           triggers="hover"
@@ -21,7 +36,7 @@
         >
           <p class="header-12 mr-1 mb-0">
             {{ item.title }}:
-            <b>{{ ((test[i] / total) * 100).toFixed(2) }}%</b>
+            <b>{{ ((datalist[i] / total) * 100).toFixed(2) }}%</b>
           </p>
         </b-popover>
       </template>
@@ -36,10 +51,11 @@ export default {
     id: Number,
     data: Object,
     color: Array,
+    userAns: String,
   },
   data() {
     return {
-      test: [],
+      datalist: [],
       quiz: [
         {
           question1: [
@@ -102,7 +118,7 @@ export default {
           question6: [
             {
               live_in_own_province: 0,
-              noneed_live_in_own_province: 0,
+              no_need_live_in_own_province: 0,
               not_live_in_own_province: 0,
             },
           ],
@@ -111,37 +127,19 @@ export default {
       total_all: 0,
     };
   },
-  created() {
-    if (this.$store.state.selectedQuiz != 3) {
-      console.log(this.data);
-      Object.values(this.data).forEach((prop) => this.test.push(prop));
-      this.total_all = this.total;
-      console.log(this.test);
-    } else {
-      this.setData();
-    }
-  },
-  methods: {
-    async setData() {
-      const ref = this.$fire.database.ref("quizzes/quiz1");
-      try {
-        const snapshots = await ref.once("value");
-        // console.log(snapshots.val());
-
-        this.quiz.forEach((element, i) => {
-          //console.log(snapshots.val()["question" + (i + 1)]);
-          element["question" + (i + 1)][0] =
-            snapshots.val()["question" + (i + 1)];
-        });
-
-        this.total_all = snapshots.val().total_people;
-        Object.values(this.data).forEach((prop) => this.test.push(prop));
-      } catch (e) {
-        alert(e);
-      }
-
-    console.log(this.data)
+  watch: {
+    data(val) {
+      this.datalist = [];
+      Object.values(this.data).forEach((prop) => this.datalist.push(prop));
     },
   },
+  created() {},
+  methods: {},
 };
 </script>
+
+<style lang="scss" scoped>
+.answered {
+  border: 5px solid #000;
+}
+</style>

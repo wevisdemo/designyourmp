@@ -1,7 +1,7 @@
 <!-- Please remove this file from your project -->
 <template>
   <div>
-    <div class="position-relative">
+    <div class="position-relative overflow-hidden">
       <div class="lottie-box">
         <lottie-animation
           ref="anim"
@@ -13,7 +13,7 @@
       <div class="content-box">
         <div class="min-h-screen text-center">
           <h1 class="intro-text kondolar">
-            "ผู้แทน" แบบไหน<br />ที่เราอยากเห็น?
+            "ผู้แทน" แบบไหน<br />ที่คุณอยากเห็น?
           </h1>
           <div class="text-white desc">
             <p class="header-8 font-weight-bold m-0">
@@ -27,7 +27,7 @@
               พออายุ 18 ปี ทุกคนในประเทศนี้ก็จะมีสิทธิเลือกตั้ง
               ซึ่งตำแหน่งสำคัญที่เป็น ‘ผู้แทน’
               อำนาจของประชาชนและมีผลต่อการตัดสินใจกฎเกณฑ์สำคัญต่างๆ
-              ที่กระทบกับชีวิตเรา คือ
+              ที่กระทบกับชีวิตคุณ คือ
               <span class="green font-weight-bold"
                 >สมาชิกสภาผู้แทนราษฎร (ส.ส.)</span
               >
@@ -37,15 +37,15 @@
           <div class="desc desc-box" id="box2">
             <p class="header-8 m-0 text-white">
               หลายคนอาจจะรู้สึกว่า.. บางครั้งเวลาไปเลือกตั้ง
-              ผู้สมัครที่มีอาจจะยังไม่มีคุณสมบัติแบบที่เราชอบ
+              ผู้สมัครที่มีอาจจะยังไม่มีคุณสมบัติแบบที่คุณชอบ
               เลยจำใจต้องเลือกจากเพียงตัวเลือกที่มีอยู่
             </p>
           </div>
 
           <div class="desc desc-box" id="box3">
             <p class="header-6 font-weight-bold green kondolar">
-              แต่ในเมื่อ ส.ส. เป็นผู้แทนของเรา เราควรต้องมีสิทธิบอกได้ว่า
-              ผู้แทนที่เราอยากได้เป็นแบบไหน
+              แต่ในเมื่อ ส.ส. เป็นผู้แทนของคุณ คุณควรต้องมีสิทธิบอกได้ว่า
+              ผู้แทนที่คุณอยากได้เป็นแบบไหน
             </p>
             <p class="header-8 m-0 text-white">
               ถึงเวลาแล้ว.. ที่ผู้มีสิทธิเลือกตั้ง (voter)
@@ -66,10 +66,13 @@
         justify-content-center
         align-items-center
       "
+      id="choose-wrapper"
+      v-if="!isChooseQuiz"
     >
       <div>
         <h5 class="header-5 font-weight-bold green">
-          การตัดสินใจเลือก ส.ส. อาจมาจากหลากหลายปัจจัย แต่เราอยากชวนคุณคิดถึงสิ่งเหล่านี้ดู
+          การตัดสินใจเลือก ส.ส. อาจมาจากหลากหลายปัจจัย
+          แต่คุณอยากชวนคุณคิดถึงสิ่งเหล่านี้ดู
         </h5>
         <p class="header-11 text-white">(กดเลือกคุณสมบัติที่คุณอยากออกแบบ)</p>
       </div>
@@ -120,22 +123,31 @@ export default {
       choice_1: require("~/assets/images/choice_1.svg"),
       choice_2: require("~/assets/images/choice_2.svg"),
       go_down: require("~/assets/images/go_down.svg"),
+      isChooseQuiz: false,
     };
   },
   methods: {
     showQuiz(choice) {
       this.$store.commit("setSelectedQuiz", choice);
-      if (choice == 1) this.$store.commit("setShowQuiz1", true);
-      else this.$store.commit("setShowQuiz2", true);
+
+      if (choice == 1) {
+        this.$store.commit("setShowQuiz1", true);
+      } else {
+        this.$store.commit("setShowQuiz2", true);
+      }
 
       if (choice != 3)
         setTimeout(() => {
           document.getElementById("quiz-" + choice).scrollIntoView();
-        }, 1000);
+        }, 500);
       else
         setTimeout(() => {
           document.getElementById("quiz1-result").scrollIntoView();
-        }, 1000);
+        }, 500);
+
+      // setTimeout(() => {
+      //
+      // }, 500);
     },
   },
 };
@@ -151,6 +163,7 @@ export default {
 .lottie-box {
   @media #{$mq-mini-mobile} {
     min-height: 200vh;
+    width: 200vw;
   }
 }
 
@@ -173,6 +186,10 @@ export default {
     position: relative;
     cursor: pointer;
     transition: 0.3s;
+
+    @media #{$mq-lg} {
+      margin-bottom: 20px;
+    }
 
     @media #{$mq-mini-mobile} {
       width: 270px;
@@ -251,8 +268,7 @@ export default {
 
 .desc {
   background: rgba($color: #000000, $alpha: 0.9);
-  box-shadow: 20px 5px 40px #000, 0px 5px 40px #000, -20px -10px 40px #000,
-    0 -10px 55px #000;
+  box-shadow: 0px 0px 30px 30px rgba(0, 0, 0, 0.9);
   width: fit-content;
   padding: 10px;
   margin: auto;

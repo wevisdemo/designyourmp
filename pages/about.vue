@@ -1,8 +1,11 @@
 <template>
   <div>
     <WvNavbar :dark="true" title="DESIGN YOUR MP">
-      <NuxtLink to="/" class="menu-link">
-        <WvNavButton :dark="true"> Home </WvNavButton></NuxtLink
+      <NuxtLink to="/#quiz" class="menu-link">
+        <WvNavButton :dark="true"> Quiz </WvNavButton></NuxtLink
+      >
+      <NuxtLink to="/#result" class="menu-link">
+        <WvNavButton :dark="true"> Result </WvNavButton></NuxtLink
       >
       <NuxtLink to="/about" class="menu-link">
         <!-- <WvNavButton :dark="true">Result</WvNavButton> -->

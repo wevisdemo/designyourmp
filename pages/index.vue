@@ -18,8 +18,11 @@
       </div>
     </div>
     <WvNavbar :dark="true" title="DESIGN YOUR MP">
-      <NuxtLink to="/" class="menu-link">
-        <WvNavButton :dark="true"> Home </WvNavButton></NuxtLink
+      <NuxtLink to="/#quiz" class="menu-link">
+        <WvNavButton :dark="true"> Quiz </WvNavButton></NuxtLink
+      >
+      <NuxtLink to="/#result" class="menu-link">
+        <WvNavButton :dark="true"> Result </WvNavButton></NuxtLink
       >
       <NuxtLink to="/about" class="menu-link">
         <!-- <WvNavButton :dark="true">Result</WvNavButton> -->
@@ -41,7 +44,7 @@
     <template v-if="$store.state.selectedQuiz == 3"> <ResultQuiz1 /></template>
     <Ending
       v-if="
-        ($store.state.isShowQuiz1 && $store.state.isShowQuiz2) ||
+        ($store.state.isAnsQuiz1 && $store.state.isAnsQuiz2) ||
         $store.state.selectedQuiz == 3
       "
     />
@@ -68,10 +71,8 @@ export default {
     WvCookieConsent,
     WvFooter,
   },
-  data() {
+  head() {
     return {
-      cookieOptions: ["Performance"],
-      isLoading: true,
       meta: [
         {
           hid: "og-image",
@@ -106,13 +107,30 @@ export default {
       ],
     };
   },
+  data() {
+    return {
+      cookieOptions: ["Performance"],
+      isLoading: true,
+    };
+  },
   created() {
     if (process.client) {
       document.getElementsByTagName("body")[0].style.overflow = "hidden";
       setTimeout(() => {
         document.getElementsByTagName("body")[0].style.overflow = "unset";
         this.isLoading = false;
-      }, 2000);
+        if (window.location.href.includes("result"))
+          this.$store.commit("setSelectedQuiz", 3);
+      }, 1000);
+
+      setTimeout(() => {
+        if (window.location.href.includes("quiz")) {
+          document.getElementById("choose-wrapper").scrollIntoView();
+        } else if (window.location.href.includes("result"))
+          document.getElementById("quiz1-result").scrollIntoView();
+      }, 1500);
+
+
     }
   },
   methods: {
