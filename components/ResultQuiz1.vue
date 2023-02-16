@@ -477,7 +477,9 @@ export default {
             {
               title: "ไม่จำเป็น",
               color: "#D0DDD4",
-              total: 0,
+              total:
+                mp_data.default.filter((x) => x.no_need_connection_bloodline)
+                  .length / mp_data.default.length,
             },
           ],
         },

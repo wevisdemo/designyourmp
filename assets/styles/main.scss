@@ -377,3 +377,8 @@ a {
 .menu-link {
   text-decoration: none;
 }
+
+.faded_choose {
+  opacity: 0.2;
+  pointer-events: none;
+}

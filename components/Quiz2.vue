@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="quiz-2-wrapper">
     <div
       id="quiz-2"
       class="
@@ -40,7 +40,7 @@
           (เรียงลำดับตามความสำคัญจากมากไปน้อย)
         </p>
 
-        <div class="d-flex">
+        <div class="d-flex" :class="{ faded_choose: $store.state.isAnsQuiz2 }">
           <div
             class="
               d-flex
@@ -115,7 +115,10 @@
           </draggable>
         </div>
 
-        <div class="text-center mt-3">
+        <div
+          class="text-center mt-3"
+          :class="{ faded_choose: $store.state.isAnsQuiz2 }"
+        >
           <button @click="submit" class="submit-btn header-8 font-weight-bold">
             ส่งคำตอบ
           </button>
@@ -183,6 +186,7 @@
 <script>
 import draggable from "vuedraggable";
 import firebase from "firebase";
+import { mapState } from "vuex";
 const quiz_result =
   "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Quiz2-Result";
 
@@ -227,6 +231,14 @@ export default {
       total_people: 0,
       first_choice: "",
     };
+  },
+  computed: {
+    ...mapState(["isEditAns"]),
+  },
+  watch: {
+    isEditAns(val) {
+      if (val) this.showResult = false;
+    },
   },
   created() {
     this.setData();
@@ -286,6 +298,8 @@ export default {
       //   });
 
       this.$store.commit("setAnsweredQuiz2", true);
+
+      this.result = [];
 
       this.list.forEach((element) => {
         this.result.push(element);
@@ -393,6 +407,7 @@ export default {
   border: 1px solid #000000;
   border-radius: 5px;
   padding: 8px 20px;
+  color: #000000;
 }
 
 .result {

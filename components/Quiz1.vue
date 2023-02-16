@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="quiz-1-wrapper">
     <div
       id="quiz-1"
       class="
@@ -24,10 +24,11 @@
         <img :src="go_down" alt="go_down" />
       </div>
     </div>
-    <div
-      class="min-h-screen position-relative text-center"
-    >
-      <div class="d-flex menu-box justify-content-center flex-wrap">
+    <div class="min-h-screen position-relative text-center">
+      <div
+        class="d-flex menu-box justify-content-center flex-wrap"
+        :class="{ faded_choose: $store.state.isAnsQuiz1 }"
+      >
         <div
           v-for="(item, i) in menu"
           :key="i"
@@ -104,32 +105,34 @@
                 {{ current_quiz.question }}
               </p>
 
-              <div
-                v-for="(item, i) in current_quiz.ans"
-                class="choice mb-2"
-                @click="answer(item, i)"
-                :class="[
-                  {
-                    'bg-blue': current_quiz.current_ans == item,
-                    noclick: isShowConfirm,
-                  },
-                ]"
-              >
-                <p class="header-8 m-0">{{ item }}</p>
-                <p class="header-10 m-0" v-if="item == 'สายกฎหมาย'">
-                  (เช่น ทนายความ, อัยการ, ผู้พิพากษา, นิติกร,
-                  ที่ปรึกษาทางกฎหมาย)
-                </p>
-                <p class="header-10 m-0" v-else-if="item == 'สายการเมือง'">
-                  (เช่น ส.ส., นายกอปท., สภาอปท. , รัฐมนตรี)
-                </p>
-                <p
-                  class="header-10 m-0"
-                  v-else-if="item == 'สายบริหารงานภาครัฐ'"
+              <div :class="{ faded_choose: $store.state.isAnsQuiz1 }">
+                <div
+                  v-for="(item, i) in current_quiz.ans"
+                  class="choice mb-2"
+                  @click="answer(item, i)"
+                  :class="[
+                    {
+                      'bg-blue': current_quiz.current_ans == item,
+                      noclick: isShowConfirm,
+                    },
+                  ]"
                 >
-                  (เช่น ผู้ว่าราชการจังหวัด, นายอำเภอ, ปลัดอำเภอ,
-                  ข้าราชการพลเรือนสามัญ)
-                </p>
+                  <p class="header-8 m-0">{{ item }}</p>
+                  <p class="header-10 m-0" v-if="item == 'สายกฎหมาย'">
+                    (เช่น ทนายความ, อัยการ, ผู้พิพากษา, นิติกร,
+                    ที่ปรึกษาทางกฎหมาย)
+                  </p>
+                  <p class="header-10 m-0" v-else-if="item == 'สายการเมือง'">
+                    (เช่น ส.ส., นายกอปท., สภาอปท. , รัฐมนตรี)
+                  </p>
+                  <p
+                    class="header-10 m-0"
+                    v-else-if="item == 'สายบริหารงานภาครัฐ'"
+                  >
+                    (เช่น ผู้ว่าราชการจังหวัด, นายอำเภอ, ปลัดอำเภอ,
+                    ข้าราชการพลเรือนสามัญ)
+                  </p>
+                </div>
               </div></template
             >
           </div>
@@ -171,7 +174,6 @@
                 class="d-flex flex-wrap people-box-result-wrapper"
                 v-if="result_list.length != 0"
               >
-                <!-- <VueSlickCarousel ref="slick" :options="slickOptions"> -->
                 <div v-for="item in result_list" class="people-box-result p-1">
                   <img
                     :src="getImgUrl(`${item.name}-${item.surname}`)"
@@ -204,8 +206,6 @@
                     >
                   </b-popover>
                 </div>
-
-                <!-- </VueSlickCarousel> -->
               </div>
               <div
                 class="d-flex justify-content-center align-items-center h-100"
@@ -246,13 +246,13 @@
                 <span v-else>สายใดมาก็ได้</span>
               </div>
               <div class="ans-choice">
-                <b v-if="quiz[4].current_ans == 'ไม่มี'">ไม่</b
-                > <b v-if="quiz[4].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
+                <b v-if="quiz[4].current_ans == 'ไม่มี'">ไม่</b>
+                <b v-if="quiz[4].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
                 >ต้องมีเครือข่ายทางการเมือง
               </div>
               <div class="ans-choice">
-                <b v-if="quiz[5].current_ans == 'ไม่มี'">ไม่</b
-                > <b v-if="quiz[5].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
+                <b v-if="quiz[5].current_ans == 'ไม่มี'">ไม่</b>
+                <b v-if="quiz[5].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
                 >ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
               </div>
             </b-col>
@@ -307,26 +307,22 @@
 
 <script>
 const quiz_result =
-  "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Quiz1-Result";
+  "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Mp-Checklist";
 
 let config = {
   headers: {
     "xc-auth":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMTdkOTNmYTZhYjc1ZjVmZWYyODU5ZDRjZTA2ZmJlNGYxOTU2YTA4OWU4NzRlODliODI0ZjMyZTFjNDZkNzY0N2YxNmMxZDkxZjI4MjJlNzAiLCJpYXQiOjE2NzU4MDU2MDAsImV4cCI6MTY3NTg0MTYwMH0.q5FiqVZ02HxDzEAoxxkmmEAq-yRr63hHmPwSTx4k3hI",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIsc3VwZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMjQwMjVmZWQ0Y2E3MTQ1ODQxYTc0YTEzMTFlNTA2ODU0OGJlNmRmMzZiYmFlMmYwYjI5OGVlZjUwYzc4NjJmMTNkNGZiNDUwNmUxODEzOGMiLCJpYXQiOjE2NzY0NTUxNzMsImV4cCI6MTY3NjQ5MTE3M30.P66jjbwzDDOfSsbkOW_FHUY8VlPocTgYtsfheUR_s0M",
     "Content-Type": "application/json",
   },
 };
 
 import * as mp_data from "~/assets/data/mp_pro.json";
-import VueSlickCarousel from "vue-slick-carousel";
-import "vue-slick-carousel/dist/vue-slick-carousel.css";
-// optional style for arrows & dots
-import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
 import firebase from "firebase";
+import { mapState } from "vuex";
 
 export default {
   name: "Quiz1",
-  components: { VueSlickCarousel },
   data() {
     return {
       choice_1: require("~/assets/images/choice_1.svg"),
@@ -422,8 +418,9 @@ export default {
       data: mp_data.default,
       fade_ppl: 0,
       isShowConfirm: false,
-      isShowResult: false,
+      isShowResult: true,
       result_list: [],
+      noco_data: [],
       slickOptions: {
         dots: true,
         focusOnSelect: true,
@@ -436,10 +433,56 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(["isEditAns"]),
+  },
+  watch: {
+    isEditAns(val) {
+      if (val) this.isShowResult = false;
+    },
+  },
   mounted() {
     this.current_quiz = this.quiz[0];
+    // this.result_list = this.data;
+    // this.test();
   },
   methods: {
+    async test() {
+      await this.$axios
+        .$get(quiz_result + "?sort=Firstname", config)
+        .then((response) => {
+          this.test2(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async test2(data) {
+      var pageinfo = data.pageInfo;
+      for (let i = 0; i < pageinfo.totalRows; i++) {
+        if (i * 100 < pageinfo.totalRows) {
+          await this.$axios
+            .$get(
+              quiz_result +
+                "?sort=Firstname&limit=100&shuffle=0&offset=" +
+                i * 100,
+              config
+            )
+            .then((response) => {
+              // console.log(response);
+
+              response.list.forEach((element) => {
+                this.noco_data.push(element);
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else break;
+      }
+
+      console.log(this.noco_data);
+    },
     selectMenu(menu, index) {
       this.menu_active = menu;
       this.current_quiz = this.quiz[index];
@@ -475,13 +518,13 @@ export default {
 
       var x = this.quiz.map((num) => num.current_ans);
 
-      localStorage.setItem('isAnsQuiz1', true);
-      localStorage.setItem('ans_1', x[0]);
-      localStorage.setItem('ans_2', x[1]);
-      localStorage.setItem('ans_3', x[2]);
-      localStorage.setItem('ans_4', x[3]);
-      localStorage.setItem('ans_5', x[4]);
-      localStorage.setItem('ans_6', x[5]);
+      localStorage.setItem("isAnsQuiz1", true);
+      localStorage.setItem("ans_1", x[0]);
+      localStorage.setItem("ans_2", x[1]);
+      localStorage.setItem("ans_3", x[2]);
+      localStorage.setItem("ans_4", x[3]);
+      localStorage.setItem("ans_5", x[4]);
+      localStorage.setItem("ans_6", x[5]);
 
       // await this.$axios
       //   .$post(
@@ -556,14 +599,12 @@ export default {
     },
     onCheckQuestion3(ans) {
       if (ans == "สาขากฎหมาย") this.quiz[2].filter = "law_faculty";
-      else if (ans == "สาขาการเมือง")
-        this.quiz[2].filter = "politics_faculty";
+      else if (ans == "สาขาการเมือง") this.quiz[2].filter = "politics_faculty";
       else if (ans == "สาขาบริหารงานภาครัฐ")
         this.quiz[2].filter = "public_admin_faculty";
       else if (ans == "สาขาการบริหารธุรกิจ")
         this.quiz[2].filter = "business_faculty";
-      else if (ans == "สาขาการศึกษา")
-        this.quiz[2].filter = "education_faculty";
+      else if (ans == "สาขาการศึกษา") this.quiz[2].filter = "education_faculty";
       else if (ans == "อื่นๆ") this.quiz[2].filter = "other_faculty";
       else this.quiz[2].filter = "any_faculty";
 

@@ -35,11 +35,29 @@
       <Quiz1 v-if="$store.state.isShowQuiz1" />
       <ResultQuiz1 v-if="$store.state.isShowResultQuiz1" />
       <Quiz2 v-if="$store.state.isShowQuiz2" />
+      <div class="bg-black text-center py-3">
+        <button
+          @click="editAns"
+          class="submit-btn header-8 font-weight-bold"
+          v-if="$store.state.isAnsQuiz1 && $store.state.isAnsQuiz2"
+        >
+          แก้ไขคำตอบ
+        </button>
+      </div>
     </template>
     <template v-if="$store.state.selectedQuiz == 2">
       <Quiz2 v-if="$store.state.isShowQuiz2" />
       <Quiz1 v-if="$store.state.isShowQuiz1" />
       <ResultQuiz1 v-if="$store.state.isShowResultQuiz1" />
+      <div class="bg-black text-center py-5">
+        <button
+          @click="editAns"
+          class="submit-btn header-8 font-weight-bold"
+          v-if="$store.state.isAnsQuiz1 && $store.state.isAnsQuiz2"
+        >
+          แก้ไขคำตอบ
+        </button>
+      </div>
     </template>
     <template v-if="$store.state.selectedQuiz == 3"> <ResultQuiz1 /></template>
     <Ending
@@ -129,12 +147,24 @@ export default {
         } else if (window.location.href.includes("result"))
           document.getElementById("quiz1-result").scrollIntoView();
       }, 1500);
-
-
     }
   },
   methods: {
     onCookieAccept() {},
+    editAns() {
+      this.$store.commit("setEditAns", true);
+      this.$store.commit("setAnsweredQuiz1", false);
+      this.$store.commit("setAnsweredQuiz2", false);
+      this.$store.commit("setShowResultQuiz1", false);
+
+      if (this.$store.state.selectedQuiz == 1) {
+        document.getElementById("quiz-1-wrapper").scrollIntoView();
+        this.$store.commit("setShowQuiz2", false);
+      } else {
+        document.getElementById("quiz-2-wrapper").scrollIntoView();
+        this.$store.commit("setShowQuiz1", false);
+      }
+    },
   },
 };
 </script>
@@ -145,5 +175,13 @@ export default {
   z-index: 9999999;
   height: 100vh;
   background: white;
+}
+
+.submit-btn {
+  -webkit-appearance: none;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  padding: 8px 20px;
+  color: #000000;
 }
 </style>

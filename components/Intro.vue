@@ -67,7 +67,6 @@
         align-items-center
       "
       id="choose-wrapper"
-      v-if="!isChooseQuiz"
     >
       <div>
         <h5 class="header-5 font-weight-bold green">
@@ -79,7 +78,12 @@
       <div class="my-5">
         <div class="d-flex justify-content-center flex-column flex-lg-row">
           <div>
-            <div class="circle" id="choice-1" @click="showQuiz(1)">
+            <div
+              class="circle"
+              id="choice-1"
+              @click="showQuiz(1)"
+              :class="{ faded_choose: quiz_choice != 0 && quiz_choice != 1 }"
+            >
               <img :src="choice_1" alt="choice_1" />
               <div class="content">
                 <h5 class="header-5 font-weight-bold">คุณสมบัติพื้นฐาน</h5>
@@ -91,7 +95,12 @@
             </div>
           </div>
           <div>
-            <div class="circle" id="choice-2" @click="showQuiz(2)">
+            <div
+              class="circle"
+              id="choice-2"
+              @click="showQuiz(2)"
+              :class="{ faded_choose: quiz_choice != 0 && quiz_choice != 2 }"
+            >
               <img :src="choice_2" alt="choice_2" />
               <div class="content">
                 <h5 class="header-5 font-weight-bold">ทักษะและลักษณะนิสัย</h5>
@@ -102,7 +111,11 @@
             </div>
           </div>
         </div>
-        <button class="see-ans-btn" @click="showQuiz(3)">
+        <button
+          class="see-ans-btn"
+          @click="showQuiz(3)"
+          :class="{ faded_choose: quiz_choice != 0 && quiz_choice != 3 }"
+        >
           ข้ามไปดูผลลัพธ์ของคนอื่นๆ
         </button>
       </div>
@@ -123,11 +136,12 @@ export default {
       choice_1: require("~/assets/images/choice_1.svg"),
       choice_2: require("~/assets/images/choice_2.svg"),
       go_down: require("~/assets/images/go_down.svg"),
-      isChooseQuiz: false,
+      quiz_choice: 0,
     };
   },
   methods: {
     showQuiz(choice) {
+      this.quiz_choice = choice;
       this.$store.commit("setSelectedQuiz", choice);
 
       if (choice == 1) {
@@ -144,10 +158,6 @@ export default {
         setTimeout(() => {
           document.getElementById("quiz1-result").scrollIntoView();
         }, 500);
-
-      // setTimeout(() => {
-      //
-      // }, 500);
     },
   },
 };
@@ -163,7 +173,7 @@ export default {
 .lottie-box {
   @media #{$mq-mini-mobile} {
     min-height: 200vh;
-    width: 200vw;
+    width: 250vw;
   }
 }
 
@@ -298,6 +308,12 @@ export default {
   -webkit-appearance: none;
   color: #d0ddd4;
   padding: 4px 10px;
+  transition: 0.3s;
+}
+
+.see-ans-btn:hover {
+  background: #fff;
+  color: #000;
 }
 
 .go_down {
@@ -305,4 +321,6 @@ export default {
   bottom: 60px;
   width: 100%;
 }
+
+
 </style>

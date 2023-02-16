@@ -33,8 +33,6 @@ export default {
   css: [
     '~/assets/styles/main.scss',
     '@wevisdemo/ui/styles/index.css',
-    'vue-slick-carousel/dist/vue-slick-carousel.css',
-    'vue-slick-carousel/dist/vue-slick-carousel-theme.css',
   ],
 
 
@@ -42,7 +40,6 @@ export default {
   plugins: [
     { src: './plugins/lottie.js' },
     { src: './plugins/vue-social-sharing.js' },
-    { src: './plugins/vue-slick-carousel.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
