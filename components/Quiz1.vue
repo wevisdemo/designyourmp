@@ -418,7 +418,7 @@ export default {
       data: mp_data.default,
       fade_ppl: 0,
       isShowConfirm: false,
-      isShowResult: true,
+      isShowResult: false,
       result_list: [],
       noco_data: [],
       slickOptions: {
