@@ -268,7 +268,7 @@
                 title=""
                 :url="
                   'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                  result_list.length
+                  result_list.length > 500 ? 501 : result_list.length
                 "
                 class="share-btn pointer text-1 mx-2"
               >
@@ -280,7 +280,7 @@
                 title=""
                 :url="
                   'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                  result_list.length
+                  result_list.length > 500 ? 501 : result_list.length
                 "
                 class="share-btn pointer text-1 mx-2"
               >
@@ -291,7 +291,7 @@
                 title=""
                 :url="
                   'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                  result_list.length
+                  result_list.length > 500 ? 501 : result_list.length
                 "
                 class="share-btn pointer text-1 mx-2"
               >

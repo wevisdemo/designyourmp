@@ -32,12 +32,15 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/styles/main.scss',
+    'vue-slick-carousel/dist/vue-slick-carousel.css',
+    'vue-slick-carousel/dist/vue-slick-carousel-theme.css',
     '@wevisdemo/ui/styles/index.css',
   ],
 
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: './plugins/vue-slick-carousel.js' },
     { src: './plugins/lottie.js' },
     { src: './plugins/vue-social-sharing.js' },
   ],
