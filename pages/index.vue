@@ -133,6 +133,7 @@ export default {
   },
   created() {
     if (process.client) {
+      this.$store.commit("setSelectedQuiz", 0);
       document.getElementsByTagName("body")[0].style.overflow = "hidden";
       setTimeout(() => {
         document.getElementsByTagName("body")[0].style.overflow = "unset";
