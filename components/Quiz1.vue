@@ -176,28 +176,28 @@
               >
                 <div v-for="item in result_list" class="people-box-result p-1">
                   <img
-                    :src="getImgUrl(`${item.name}-${item.surname}`)"
-                    :alt="`${item.name}-${item.surname}`"
-                    :id="'person-' + item.id"
+                    :src="getImgUrl(`${item.Firstname}-${item.Lastname}`)"
+                    :alt="`${item.Firstname}-${item.Lastname}`"
+                    :id="'person-' + item.Index"
                     class="politician-img"
                   />
                   <b-popover
-                    :target="'person-' + item.id"
+                    :target="'person-' + item.Index"
                     triggers="hover"
                     placement="top"
                   >
                     <p class="header-9 m-0 font-weight-bold">
-                      {{ item.name }} {{ item.surname }}
+                      {{ item.Firstname }} {{ item.Lastname }}
                     </p>
-                    <p class="header-11 m-0">ตำแหน่ง {{ item.party }}</p>
-                    <p class="header-11 m-0">ตำแหน่ง {{ item.type }}</p>
+                    <p class="header-11 m-0">พรรค {{ item.Party }}</p>
+                    <p class="header-11 m-0">ประเภท ส.ส. {{ item.Position }}</p>
 
                     <a
                       :href="
                         'https://theyworkforus.wevis.info/people/' +
-                        item.name +
+                        item.Firstname +
                         '-' +
-                        item.surname
+                        item.Lastname
                       "
                       target="_blank"
                       rel="noopener noreferrer"
@@ -267,8 +267,10 @@
                 network="facebook"
                 title=""
                 :url="
-                  'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                  result_list.length > 500 ? 501 : result_list.length
+                  result_list.length > 500
+                    ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
+                    : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                      result_list.length
                 "
                 class="share-btn pointer text-1 mx-2"
               >
@@ -279,8 +281,10 @@
                 network="twitter"
                 title=""
                 :url="
-                  'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                  result_list.length > 500 ? 501 : result_list.length
+                  result_list.length > 500
+                    ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
+                    : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                      result_list.length
                 "
                 class="share-btn pointer text-1 mx-2"
               >
@@ -290,8 +294,10 @@
                 network="line"
                 title=""
                 :url="
-                  'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                  result_list.length > 500 ? 501 : result_list.length
+                  result_list.length > 500
+                    ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
+                    : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                      result_list.length
                 "
                 class="share-btn pointer text-1 mx-2"
               >
@@ -312,7 +318,7 @@ const quiz_result =
 let config = {
   headers: {
     "xc-auth":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIsc3VwZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMjQwMjVmZWQ0Y2E3MTQ1ODQxYTc0YTEzMTFlNTA2ODU0OGJlNmRmMzZiYmFlMmYwYjI5OGVlZjUwYzc4NjJmMTNkNGZiNDUwNmUxODEzOGMiLCJpYXQiOjE2NzY0NTUxNzMsImV4cCI6MTY3NjQ5MTE3M30.P66jjbwzDDOfSsbkOW_FHUY8VlPocTgYtsfheUR_s0M",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIsc3VwZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMjQwMjVmZWQ0Y2E3MTQ1ODQxYTc0YTEzMTFlNTA2ODU0OGJlNmRmMzZiYmFlMmYwYjI5OGVlZjUwYzc4NjJmMTNkNGZiNDUwNmUxODEzOGMiLCJpYXQiOjE2NzY4NzczMzUsImV4cCI6MTY3NjkxMzMzNX0.afYtSO9ShYEa3RCdrEiSgPVa4xL5d968BmK2-H3JnLo",
     "Content-Type": "application/json",
   },
 };
@@ -355,6 +361,7 @@ export default {
           ],
           current_ans: "",
           filter: "",
+          filterFb: "",
         },
         {
           id: 2,
@@ -368,6 +375,7 @@ export default {
           ],
           current_ans: "",
           filter: "",
+          filterFb: "",
         },
         {
           id: 3,
@@ -383,6 +391,7 @@ export default {
           ],
           current_ans: "",
           filter: "",
+          filterFb: "",
         },
         {
           id: 4,
@@ -398,6 +407,7 @@ export default {
           ],
           current_ans: "",
           filter: "",
+          filterFb: "",
         },
         {
           id: 5,
@@ -405,6 +415,7 @@ export default {
           ans: ["มี", "ไม่มี", "ไม่จำเป็น"],
           current_ans: "",
           filter: "",
+          filterFb: "",
         },
         {
           id: 6,
@@ -413,9 +424,10 @@ export default {
           ans: ["อยู่", "ไม่อยู่", "ไม่จำเป็น"],
           current_ans: "",
           filter: "",
+          filterFb: "",
         },
       ],
-      data: mp_data.default,
+      data: [],
       fade_ppl: 0,
       isShowConfirm: false,
       isShowResult: false,
@@ -443,21 +455,21 @@ export default {
   },
   mounted() {
     this.current_quiz = this.quiz[0];
-    // this.result_list = this.data;
-    // this.test();
+    // this.result_list = this.noco_data;
+    this.getDataFromNocodb();
   },
   methods: {
-    async test() {
+    async getDataFromNocodb() {
       await this.$axios
         .$get(quiz_result + "?sort=Firstname", config)
         .then((response) => {
-          this.test2(response);
+          this.setData(response);
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    async test2(data) {
+    async setData(data) {
       var pageinfo = data.pageInfo;
       for (let i = 0; i < pageinfo.totalRows; i++) {
         if (i * 100 < pageinfo.totalRows) {
@@ -469,10 +481,9 @@ export default {
               config
             )
             .then((response) => {
-              // console.log(response);
-
               response.list.forEach((element) => {
                 this.noco_data.push(element);
+                this.data.push(element);
               });
             })
             .catch((error) => {
@@ -480,8 +491,6 @@ export default {
             });
         } else break;
       }
-
-      console.log(this.noco_data);
     },
     selectMenu(menu, index) {
       this.menu_active = menu;
@@ -504,7 +513,7 @@ export default {
       }
     },
     async showResult() {
-      var x = this.quiz.map((num) => num.filter);
+      var x = this.quiz.map((num) => num.filterFb);
 
       x.forEach((element, i) => {
         const ref = this.$fire.database.ref(
@@ -564,81 +573,158 @@ export default {
     },
     filterData() {
       var x = this.quiz.map((num) => num.filter);
-      var i = 0;
-      this.data = mp_data.default;
+      var y = this.quiz.map((num) => num.current_ans);
+      var a = 0;
+      this.data = this.noco_data;
 
-      x.forEach((element) => {
+      x.forEach((element, i) => {
         if (element != "") {
-          this.data = this.data.filter((x) => x[element]);
-          i++;
+          if (i == 0) this.data = this.data.filter((x) => x["Age"] == element);
+          else if (i == 1)
+            this.data = this.data.filter((x) => x["EducationLevel"] == element);
+          else if (i == 2)
+            this.data = this.data.filter((x) => x["EducationField"] == element);
+          else if (i == 3)
+            this.data = this.data.filter((x) => x["Work"] == element);
+          else if (i == 4)
+            this.data = this.data.filter(
+              (x) => x["BloodlineConnection"] == element
+            );
+          else if (i == 5)
+            this.data = this.data.filter(
+              (x) => x["LiveInOwnProvince"] == element
+            );
         }
       });
 
-      if (i == 6) this.isShowConfirm = true;
+      y.forEach((element, i) => {
+        if (element != "") a++;
+      });
+
+      if (a == 6) this.isShowConfirm = true;
       else this.isShowConfirm = false;
 
-      this.fade_ppl = mp_data.length - this.data.length;
+      this.fade_ppl = this.noco_data.length - this.data.length;
     },
     onCheckQuestion1(ans) {
-      if (ans == "อายุ 18-30") this.quiz[0].filter = "age18_30";
-      else if (ans == "อายุ 31-40") this.quiz[0].filter = "age31_40";
-      else if (ans == "อายุ 41-50") this.quiz[0].filter = "age41_50";
-      else if (ans == "อายุ 51-60 ขึ้นไป") this.quiz[0].filter = "age51_60";
-      else this.quiz[0].filter = "noneedage";
+      if (ans == "อายุ 18-30") {
+        this.quiz[0].filter = "18-30";
+        this.quiz[0].filterFb = "age18_30";
+      } else if (ans == "อายุ 31-40") {
+        this.quiz[0].filter = "31-40";
+        this.quiz[0].filterFb = "age31_40";
+      } else if (ans == "อายุ 41-50") {
+        this.quiz[0].filter = "41-50";
+        this.quiz[0].filterFb = "age41_50";
+      } else if (ans == "อายุ 51-60 ขึ้นไป") {
+        this.quiz[0].filter = "51-60";
+        this.quiz[0].filterFb = "age51_60";
+      } else {
+        this.quiz[0].filter = "";
+        this.quiz[0].filterFb = "noneedage";
+      }
 
       this.quiz[0].current_ans = ans;
     },
     onCheckQuestion2(ans) {
-      if (ans == "ต่ำกว่าปริญญาตรี") this.quiz[1].filter = "below_bachelor_deg";
-      else if (ans == "ปริญญาตรี") this.quiz[1].filter = "bachelor_deg";
-      else if (ans == "ปริญญาโท") this.quiz[1].filter = "master_deg";
-      else if (ans == "ปริญญาเอก") this.quiz[1].filter = "phd";
-      else this.quiz[1].filter = "no_need_deg";
+      if (ans == "ต่ำกว่าปริญญาตรี") {
+        this.quiz[1].filter = "below_bachelor";
+        this.quiz[1].filterFb = "below_bachelor_deg";
+      } else if (ans == "ปริญญาตรี") {
+        this.quiz[1].filter = "bachelor";
+        this.quiz[1].filterFb = "bachelor_deg";
+      } else if (ans == "ปริญญาโท") {
+        this.quiz[1].filter = "master";
+        this.quiz[1].filterFb = "master_deg";
+      } else if (ans == "ปริญญาเอก") {
+        this.quiz[1].filter = "phd";
+        this.quiz[1].filterFb = "phd";
+      } else {
+        this.quiz[1].filter = "";
+        this.quiz[1].filterFb = "no_need_deg";
+      }
 
       this.quiz[1].current_ans = ans;
     },
     onCheckQuestion3(ans) {
-      if (ans == "สาขากฎหมาย") this.quiz[2].filter = "law_faculty";
-      else if (ans == "สาขาการเมือง") this.quiz[2].filter = "politics_faculty";
-      else if (ans == "สาขาบริหารงานภาครัฐ")
-        this.quiz[2].filter = "public_admin_faculty";
-      else if (ans == "สาขาการบริหารธุรกิจ")
-        this.quiz[2].filter = "business_faculty";
-      else if (ans == "สาขาการศึกษา") this.quiz[2].filter = "education_faculty";
-      else if (ans == "อื่นๆ") this.quiz[2].filter = "other_faculty";
-      else this.quiz[2].filter = "any_faculty";
+      if (ans == "สาขากฎหมาย") {
+        this.quiz[2].filter = "law";
+        this.quiz[2].filterFb = "law_faculty";
+      } else if (ans == "สาขาการเมือง") {
+        this.quiz[2].filter = "politics";
+        this.quiz[2].filterFb = "politics_faculty";
+      } else if (ans == "สาขาบริหารงานภาครัฐ") {
+        this.quiz[2].filter = "public_admin";
+        this.quiz[2].filterFb = "public_admin_faculty";
+      } else if (ans == "สาขาการบริหารธุรกิจ") {
+        this.quiz[2].filter = "business";
+        this.quiz[2].filterFb = "business_faculty";
+      } else if (ans == "สาขาการศึกษา") {
+        this.quiz[2].filter = "education";
+        this.quiz[2].filterFb = "education_faculty";
+      } else if (ans == "อื่นๆ") {
+        this.quiz[2].filter = "other";
+        this.quiz[2].filterFb = "other_faculty";
+      } else {
+        this.quiz[2].filter = "";
+        this.quiz[2].filterFb = "any_faculty";
+      }
 
       this.quiz[2].current_ans = ans;
     },
     onCheckQuestion4(ans) {
-      if (ans == "สายกฎหมาย") this.quiz[3].filter = "law_work";
-      else if (ans == "สายการเมือง") this.quiz[3].filter = "politics_work";
-      else if (ans == "สายบริหารงานภาครัฐ")
-        this.quiz[3].filter = "public_admin_work";
-      else if (ans == "นักธุรกิจ") this.quiz[3].filter = "business_work";
-      else if (ans == "นักวิชาการ") this.quiz[3].filter = "education_work";
-      else if (ans == "ทำงานสาขาอื่นๆ") this.quiz[3].filter = "other_work";
-      else this.quiz[3].filter = "any_work";
+      if (ans == "สายกฎหมาย") {
+        this.quiz[3].filter = "law";
+        this.quiz[3].filterFb = "law_work";
+      } else if (ans == "สายการเมือง") {
+        this.quiz[3].filter = "politics";
+        this.quiz[3].filterFb = "politics_work";
+      } else if (ans == "สายบริหารงานภาครัฐ") {
+        this.quiz[3].filter = "public_admin";
+        this.quiz[3].filterFb = "public_admin_work";
+      } else if (ans == "นักธุรกิจ") {
+        this.quiz[3].filter = "business";
+        this.quiz[3].filterFb = "business_work";
+      } else if (ans == "นักวิชาการ") {
+        this.quiz[3].filter = "education";
+        this.quiz[3].filterFb = "education_work";
+      } else if (ans == "ทำงานสาขาอื่นๆ") {
+        this.quiz[3].filter = "other";
+        this.quiz[3].filterFb = "other_work";
+      } else {
+        this.quiz[3].filter = "";
+        this.quiz[3].filterFb = "any_work";
+      }
 
       this.quiz[3].current_ans = ans;
     },
     onCheckQuestion5(ans) {
-      if (ans == "มี") this.quiz[4].filter = "has_connection_bloodline";
-      else if (ans == "ไม่มี") this.quiz[4].filter = "no_connection_bloodline";
-      else this.quiz[4].filter = "no_need_connection_bloodline";
+      if (ans == "มี") {
+        this.quiz[4].filter = "yes";
+        this.quiz[4].filterFb = "has_connection_bloodline";
+      } else if (ans == "ไม่มี") {
+        this.quiz[4].filter = "no";
+        this.quiz[4].filterFb = "no_connection_bloodline";
+      } else {
+        this.quiz[4].filter = "";
+        this.quiz[4].filterFb = "no_need_connection_bloodline";
+      }
 
       this.quiz[4].current_ans = ans;
     },
     onCheckQuestion6(ans) {
-      if (ans == "อยู่") this.quiz[5].filter = "live_in_own_province";
-      else if (ans == "ไม่อยู่")
-        this.quiz[5].filter = "not_live_in_own_province";
-      else this.quiz[5].filter = "no_need_live_in_own_province";
+      if (ans == "อยู่") {
+        this.quiz[5].filter = true;
+        this.quiz[5].filterFb = "live_in_own_province";
+      } else if (ans == "ไม่อยู่") {
+        this.quiz[5].filter = false;
+        this.quiz[5].filterFb = "not_live_in_own_province";
+      } else {
+        this.quiz[5].filter = "";
+        this.quiz[5].filterFb = "no_need_live_in_own_province";
+      }
 
       this.quiz[5].current_ans = ans;
-    },
-    myFunction(e) {
-      e.target.src = require("~/assets/images/sample.svg");
     },
     getImgUrl(filename) {
       try {

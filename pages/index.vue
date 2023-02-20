@@ -105,7 +105,7 @@ export default {
         {
           hid: "og:title",
           property: "og:title",
-          content: "'ผู้แทน' แบบไหนที่เราอยากเห็น?",
+          content: "'ผู้แทน' แบบไหนที่คุณอยากเห็น?",
         },
         {
           hid: "og:description",
@@ -115,7 +115,7 @@ export default {
         {
           hid: "twitter:title",
           name: "twitter:title",
-          content: "'ผู้แทน' แบบไหนที่เราอยากเห็น?",
+          content: "'ผู้แทน' แบบไหนที่คุณอยากเห็น?",
         },
         {
           hid: "twitter:description",
@@ -150,7 +150,22 @@ export default {
     }
   },
   methods: {
-    onCookieAccept() {},
+    onCookieAccept() {
+      if (option["Performance"]) {
+        (function (c, l, a, r, i, t, y) {
+          c[a] =
+            c[a] ||
+            function () {
+              (c[a].q = c[a].q || []).push(arguments);
+            };
+          t = l.createElement(r);
+          t.async = 1;
+          t.src = "https://www.clarity.ms/tag/" + i;
+          y = l.getElementsByTagName(r)[0];
+          y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "fx7fiq5eoe");
+      }
+    },
     editAns() {
       this.$store.commit("setEditAns", true);
       this.$store.commit("setAnsweredQuiz1", false);

@@ -25,7 +25,7 @@
           <div class="desc desc-box" id="box1">
             <p class="header-8 m-0 text-white">
               พออายุ 18 ปี ทุกคนในประเทศนี้ก็จะมีสิทธิเลือกตั้ง
-              ซึ่งตำแหน่งสำคัญที่เป็น ‘ผู้แทน’
+              ซึ่งตำแหน่งสำคัญที่เป็น “ผู้แทน”
               อำนาจของประชาชนและมีผลต่อการตัดสินใจกฎเกณฑ์สำคัญต่างๆ
               ที่กระทบกับชีวิตคุณ คือ
               <span class="green font-weight-bold"
@@ -45,7 +45,7 @@
           <div class="desc desc-box" id="box3">
             <p class="header-6 font-weight-bold green kondolar">
               แต่ในเมื่อ ส.ส. เป็นผู้แทนของคุณ คุณควรต้องมีสิทธิบอกได้ว่า
-              ผู้แทนที่คุณอยากได้เป็นแบบไหน
+              <span>ผู้แทนที่คุณอยากได้เป็นแบบไหน</span>
             </p>
             <p class="header-8 m-0 text-white">
               ถึงเวลาแล้ว.. ที่ผู้มีสิทธิเลือกตั้ง (voter)
@@ -322,5 +322,7 @@ export default {
   width: 100%;
 }
 
-
+span {
+  white-space: nowrap;
+}
 </style>

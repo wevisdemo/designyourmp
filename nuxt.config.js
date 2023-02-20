@@ -74,6 +74,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/bootstrap
+    'vue-plausible',
     'bootstrap-vue/nuxt',
   ],
 
@@ -84,6 +85,11 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['@wevisdemo/ui/vue2'],
+  },
+
+  plausible: {
+    domain: 'wevis.info/designyourmp',
+    apiHost: 'https://analytics.punchup.world',
   },
 
   generate: {

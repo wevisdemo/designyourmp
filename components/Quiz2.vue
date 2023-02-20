@@ -248,8 +248,6 @@ export default {
       const ref = this.$fire.database.ref("quizzes/quiz2");
       try {
         const snapshots = await ref.once("value");
-        //console.log(snapshots.val()["choice1"]);
-
         this.list.forEach((element, i) => {
           element.total = snapshots.val()["choice" + element.id];
         });

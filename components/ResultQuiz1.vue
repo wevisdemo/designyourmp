@@ -200,6 +200,17 @@
 import firebase from "firebase";
 import * as mp_data from "~/assets/data/mp_pro.json";
 
+const quiz_result =
+  "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Mp-Checklist";
+
+let config = {
+  headers: {
+    "xc-auth":
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIsc3VwZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMjQwMjVmZWQ0Y2E3MTQ1ODQxYTc0YTEzMTFlNTA2ODU0OGJlNmRmMzZiYmFlMmYwYjI5OGVlZjUwYzc4NjJmMTNkNGZiNDUwNmUxODEzOGMiLCJpYXQiOjE2NzY4NzczMzUsImV4cCI6MTY3NjkxMzMzNX0.afYtSO9ShYEa3RCdrEiSgPVa4xL5d968BmK2-H3JnLo",
+    "Content-Type": "application/json",
+  },
+};
+
 export default {
   data() {
     return {
@@ -279,30 +290,30 @@ export default {
             {
               title: "อายุ 18-30",
               color: "#FFA9DB",
-              total:
-                mp_data.default.filter((x) => x.age18_30).length /
-                mp_data.default.length,
+              filter: "18-30",
+              header: "Age",
+              total: 0,
             },
             {
               title: "อายุ 31-40",
               color: "#FF8CCD",
-              total:
-                mp_data.default.filter((x) => x.age31_40).length /
-                mp_data.default.length,
+              filter: "31-40",
+              header: "Age",
+              total: 0,
             },
             {
               title: "อายุ 41-50",
               color: "#FF71BF",
-              total:
-                mp_data.default.filter((x) => x.age41_50).length /
-                mp_data.default.length,
+              filter: "41-50",
+              header: "Age",
+              total: 0,
             },
             {
               title: "อายุ 51-60 ขึ้นไป",
               color: "#FF58B1",
-              total:
-                mp_data.default.filter((x) => x.age51_60).length /
-                mp_data.default.length,
+              filter: "51-60",
+              header: "Age",
+              total: 0,
             },
             {
               title: "ไม่กำหนดอายุ",
@@ -318,30 +329,30 @@ export default {
             {
               title: "ต่ำกว่าปริญญาตรี",
               color: "#FFCE87",
-              total:
-                mp_data.default.filter((x) => x.below_bachelor_deg).length /
-                mp_data.default.length,
+              filter: "below_bachelor",
+              header: "EducationLevel",
+              total: 0,
             },
             {
               title: "ปริญญาตรี",
               color: "#FFBA5A",
-              total:
-                mp_data.default.filter((x) => x.bachelor_deg).length /
-                mp_data.default.length,
+              filter: "bachelor",
+              header: "EducationLevel",
+              total: 0,
             },
             {
               title: "ปริญญาโท",
               color: "#FFA62D",
-              total:
-                mp_data.default.filter((x) => x.master_deg).length /
-                mp_data.default.length,
+              filter: "master",
+              header: "EducationLevel",
+              total: 0,
             },
             {
               title: "ปริญญาเอก",
               color: "#FF9201",
-              total:
-                mp_data.default.filter((x) => x.phd).length /
-                mp_data.default.length,
+              filter: "phd",
+              header: "EducationLevel",
+              total: 0,
             },
             {
               title: "ไม่กำหนด",
@@ -357,44 +368,44 @@ export default {
             {
               title: "สาขากฎหมาย",
               color: "#FF8CCD",
-              total:
-                mp_data.default.filter((x) => x.law_faculty).length /
-                mp_data.default.length,
+              filter: "law",
+              header: "EducationField",
+              total: 0,
             },
             {
               title: "สาขาการเมือง",
               color: "#51B4FA",
-              total:
-                mp_data.default.filter((x) => x.politics_faculty).length /
-                mp_data.default.length,
+              filter: "politics",
+              header: "EducationField",
+              total: 0,
             },
             {
               title: "สาขาบริหารงานภาครัฐ",
               color: "#6CDB5A",
-              total:
-                mp_data.default.filter((x) => x.public_admin_faculty).length /
-                mp_data.default.length,
+              filter: "public_admin",
+              header: "EducationField",
+              total: 0,
             },
             {
               title: "สาขาการบริหารธุรกิจ",
               color: "#FF6C2D",
-              total:
-                mp_data.default.filter((x) => x.business_faculty).length /
-                mp_data.default.length,
+              filter: "business",
+              header: "EducationField",
+              total: 0,
             },
             {
               title: "สาขาการศึกษา",
               color: "#FFA62D",
-              total:
-                mp_data.default.filter((x) => x.education_faculty).length /
-                mp_data.default.length,
+              filter: "education",
+              header: "EducationField",
+              total: 0,
             },
             {
               title: "สาขาอื่นๆ",
               color: "#9DAAA1",
-              total:
-                mp_data.default.filter((x) => x.other_faculty).length /
-                mp_data.default.length,
+              filter: "other",
+              header: "EducationField",
+              total: 0,
             },
             {
               title: "จบสาขาใดมาก็ได้",
@@ -410,44 +421,44 @@ export default {
             {
               title: "สายกฎหมาย",
               color: "#FF8CCD",
-              total:
-                mp_data.default.filter((x) => x.law_work).length /
-                mp_data.default.length,
+              filter: "law",
+              header: "Work",
+              total: 0,
             },
             {
               title: "สายการเมือง",
               color: "#51B4FA",
-              total:
-                mp_data.default.filter((x) => x.politics_work).length /
-                mp_data.default.length,
+              filter: "politics",
+              header: "Work",
+              total: 0,
             },
             {
               title: "สายบริหารงานภาครัฐ",
               color: "#6CDB5A",
-              total:
-                mp_data.default.filter((x) => x.public_admin_work).length /
-                mp_data.default.length,
+              filter: "public_admin",
+              header: "Work",
+              total: 0,
             },
             {
               title: "นักธุรกิจ",
               color: "#FF6C2D",
-              total:
-                mp_data.default.filter((x) => x.business_work).length /
-                mp_data.default.length,
+              filter: "business",
+              header: "Work",
+              total: 0,
             },
             {
               title: "นักวิชาการ",
               color: "#FFA62D",
-              total:
-                mp_data.default.filter((x) => x.education_work).length /
-                mp_data.default.length,
+              filter: "education",
+              header: "Work",
+              total: 0,
             },
             {
               title: "สายอื่นๆ",
               color: "#9DAAA1",
-              total:
-                mp_data.default.filter((x) => x.other_work).length /
-                mp_data.default.length,
+              filter: "other",
+              header: "Work",
+              total: 0,
             },
             {
               title: "สายใดมาก็ได้",
@@ -463,23 +474,21 @@ export default {
             {
               title: "มี",
               color: "#6CDB5A",
-              total:
-                mp_data.default.filter((x) => x.has_connection_bloodline)
-                  .length / mp_data.default.length,
+              filter: "yes",
+              header: "BloodlineConnection",
+              total: 0,
             },
             {
               title: "ไม่มี",
               color: "#FF6C2D",
-              total:
-                mp_data.default.filter((x) => x.no_connection_bloodline)
-                  .length / mp_data.default.length,
+              filter: "no",
+              header: "BloodlineConnection",
+              total: 0,
             },
             {
               title: "ไม่จำเป็น",
               color: "#D0DDD4",
-              total:
-                mp_data.default.filter((x) => x.no_need_connection_bloodline)
-                  .length / mp_data.default.length,
+              total: 0,
             },
           ],
         },
@@ -490,23 +499,21 @@ export default {
             {
               title: "อยู่",
               color: "#6CDB5A",
-              total:
-                mp_data.default.filter((x) => x.live_in_own_province).length /
-                mp_data.default.length,
+              filter: true,
+              header: "LiveInOwnProvince",
+              total: 0,
             },
             {
               title: "ไม่อยู่",
               color: "#FF6C2D",
-              total:
-                mp_data.default.filter((x) => x.not_live_in_own_province)
-                  .length / mp_data.default.length,
+              filter: false,
+              header: "LiveInOwnProvince",
+              total: 0,
             },
             {
               title: "ไม่จำเป็น",
               color: "#D0DDD4",
-              total:
-                mp_data.default.filter((x) => x.no_need_live_in_own_province)
-                  .length / mp_data.default.length,
+              total: 0,
             },
           ],
         },
@@ -515,13 +522,73 @@ export default {
       total_all: 0,
       details_text: require("~/assets/images/details_text.svg"),
       userAns: [],
+      noco_data: [],
     };
   },
   mounted() {
     this.setData();
+    this.getDataFromNocodb();
     this.onCheckAnswerQuiz1();
   },
   methods: {
+    async getDataFromNocodb() {
+      await this.$axios
+        .$get(quiz_result + "?sort=Firstname", config)
+        .then((response) => {
+          this.setDataFromNocodb(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async setDataFromNocodb(data) {
+      var pageinfo = data.pageInfo;
+      for (let i = 0; i < pageinfo.totalRows; i++) {
+        if (i * 100 < pageinfo.totalRows) {
+          await this.$axios
+            .$get(
+              quiz_result +
+                "?sort=Firstname&limit=100&shuffle=0&offset=" +
+                i * 100,
+              config
+            )
+            .then((response) => {
+              response.list.forEach((element) => {
+                this.noco_data.push(element);
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else break;
+      }
+      var test = this.dashboard.map((num) => num.list);
+
+      test.forEach((element, i) => {
+        // console.log(element);
+        element.forEach((el2, j) => {
+          if (
+            el2.title != "ไม่กำหนดอายุ" ||
+            el2.title != "ไม่กำหนด" ||
+            el2.title != "จบสาขาใดมาก็ได้" ||
+            el2.title != "สายใดมาก็ได้" ||
+            el2.title != "ไม่จำเป็น"
+          ) {
+            if (el2.header == "EducationField" || el2.header == "Work") {
+              el2.total =
+                this.noco_data.filter(
+                  (o) =>
+                    o[el2.header] != null && o[el2.header].includes(el2.filter)
+                ).length / this.noco_data.length;
+            } else {
+              el2.total =
+                this.noco_data.filter((x) => x[el2.header] == el2.filter)
+                  .length / this.noco_data.length;
+            }
+          }
+        });
+      });
+    },
     async setData() {
       const ref = this.$fire.database.ref("quizzes/quiz1");
       try {
