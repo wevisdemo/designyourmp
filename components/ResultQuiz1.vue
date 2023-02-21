@@ -27,29 +27,15 @@
 
       <div class="dashboard-box">
         <b-row class="m-0">
-          <b-col
-            class="mb-3"
-            md="6"
-            v-for="(item, i) in dashboard"
-            :key="'list' + i"
-          >
+          <b-col class="mb-3" md="6" v-for="(item, i) in dashboard" :key="'list' + i">
             <div class="list text-black">
               <div class="chart-box">
                 <p class="header-6 kondolar text-center font-weight-bold">
                   {{ item.title }}
                 </p>
-                <div
-                  class="d-flex flex-wrap justify-content-center px-2 px-sm-0"
-                >
-                  <div
-                    class="d-flex mx-1 align-items-center"
-                    v-for="(item, j) in item.list"
-                    :key="'detail' + i + j"
-                  >
-                    <div
-                      class="circle mr-1"
-                      :style="{ backgroundColor: item.color }"
-                    ></div>
+                <div class="d-flex flex-wrap justify-content-center px-2 px-sm-0">
+                  <div class="d-flex mx-1 align-items-center" v-for="(item, j) in item.list" :key="'detail' + i + j">
+                    <div class="circle mr-1" :style="{ backgroundColor: item.color }"></div>
                     <p class="header-12 mr-1 mb-0">
                       {{ item.title }}
                     </p>
@@ -58,30 +44,28 @@
                 <b-row class="mt-3">
                   <b-col cols="4">
                     <p class="header-10 m-0 font-weight-bold">
-                      สัดส่วนจริงของ ส.ส.ในสภา
-                    </p></b-col
-                  >
+
+                      <template v-if="item.id == 1">สัดส่วนของอายุ ส.ส. ในสภา</template>
+                      <template v-else-if="item.id == 2">สัดส่วนของระดับการศึกษาสูงสุดของ ส.ส. ในสภา</template>
+                      <template v-else-if="item.id == 3">สัดส่วนการศึกษาของ ส.ส. ในสภา<br> <span
+                          class="header-13 font-weight-normal">* 1 คน อาจมีได้มากกว่า 1 การศึกษา</span></template>
+                      <template v-else-if="item.id == 4">สัดส่วนการอาชีพเดิมของ ส.ส. ในสภา<br> <span
+                          class="header-13 font-weight-normal">* 1 คน อาจมีได้มากกว่า 1 การอาชีพ</span></template>
+                      <template v-else-if="item.id == 5">สัดส่วนเครือข่ายทางการเมืองของ ส.ส. ในสภา</template>
+                      <template v-else-if="item.id == 6">สัดส่วนอาศัยอยู่ที่ที่ลงสมัครของ ส.ส. ในสภา</template>
+                    </p>
+                  </b-col>
                   <b-col cols="8">
                     <div class="d-flex mx-1 align-items-center h-100">
                       <template v-for="(item2, j) in item.list">
-                        <div
-                          v-if="j != item.list.length - 1"
-                          class="list-box h-100"
-                          :key="'detail' + i + j"
-                          :style="{
-                            backgroundColor: item2.color,
-                            width:
-                              item2.total * 100 > 1
-                                ? (item2.total * 100).toFixed(2) + '%'
-                                : '1%',
-                          }"
-                          :id="'popover-list-' + i + j"
-                        ></div>
-                        <b-popover
-                          :target="'popover-list-' + i + j"
-                          triggers="hover"
-                          placement="top"
-                        >
+                        <div v-if="j != item.list.length - 1" class="list-box h-100" :key="'detail' + i + j" :style="{
+                          backgroundColor: item2.color,
+                          width:
+                            item2.total * 100 > 1
+                              ? (item2.total * 100).toFixed(2) + '%'
+                              : '1%',
+                        }" :id="'popover-list-' + i + j"></div>
+                        <b-popover :target="'popover-list-' + i + j" triggers="hover" placement="top">
                           <p class="header-12 mr-1 mb-0">
                             {{ item2.title }}:
                             <b>{{ (item2.total * 100).toFixed(2) }}%</b>
@@ -95,18 +79,12 @@
                   <b-col cols="4">
                     <p class="header-10 m-0 font-weight-bold">
                       สัดส่วนจากการออกแบบของทุกคน
-                    </p></b-col
-                  >
+                    </p>
+                  </b-col>
                   <b-col cols="8">
-                    <DashboardByVote
-                      :data="
-                        rearrangeData(quiz[i]['question' + item.id], item.id)
-                      "
-                      :id="item.id"
-                      :total="total_all"
-                      :color="dashboard[i].list"
-                      :userAns="userAns[i]"
-                    />
+                    <DashboardByVote :data="
+                      rearrangeData(quiz[i]['question' + item.id], item.id)
+                    " :id="item.id" :total="total_all" :color="dashboard[i].list" :userAns="userAns[i]" />
                   </b-col>
                 </b-row>
               </div>
@@ -114,8 +92,7 @@
             <div class="desc-box">
               <b-row class="align-items-center">
                 <b-col cols="2" class="detail-header-box text-right">
-                  <img :src="details_text" alt=""
-                /></b-col>
+                  <img :src="details_text" alt="" /></b-col>
                 <b-col cols="10">
                   <ul class="header-11 pl-3 m-0">
                     <template v-if="item.title == 'อายุของ ส.ส. ในสภา'">
@@ -125,64 +102,45 @@
                         พรรคภูมิใจไทย
                       </li>
                       <li>
-                        <b>ส.ส. ที่มีอายุน้อยที่สุด 30 ปี</b
-                        ><br />นางสาวเพชรชมพู กิจบูรณะ พรรครวมพลังประชาชาติไทย
+                        <b>ส.ส. ที่มีอายุน้อยที่สุด 30 ปี</b><br />นางสาวเพชรชมพู กิจบูรณะ พรรครวมพลังประชาชาติไทย
                       </li>
                     </template>
-                    <template
-                      v-else-if="item.title == 'ระดับการศึกษาของ ส.ส. ในสภา'"
-                    >
+                    <template v-else-if="item.title == 'ระดับการศึกษาของ ส.ส. ในสภา'">
                       <li>
-                        <b
-                          >ส.ส.ในสภาส่วนใหญ่มีระดับการศึกษา ระดับปริญญาโท
-                          (59.1%)</b
-                        >
+                        <b>ส.ส.ในสภาส่วนใหญ่มีระดับการศึกษา ระดับปริญญาโท
+                          (59.1%)</b>
                       </li>
                     </template>
                     <template v-else-if="item.title == 'การศึกษา ส.ส. ในสภา'">
                       <li>
-                        <b
-                          >ส่วนใหญ่เรียนมาเกี่ยวกับการเมืองการปกครอง
-                          การบริหารงานภาครัฐ และกฎหมาย</b
-                        >
+                        <b>ส่วนใหญ่เรียนมาเกี่ยวกับการเมืองการปกครอง
+                          การบริหารงานภาครัฐ และกฎหมาย</b>
                       </li>
                     </template>
-                    <template
-                      v-else-if="item.title == 'อาชีพเดิมของ ส.ส. ในสภา'"
-                    >
+                    <template v-else-if="item.title == 'อาชีพเดิมของ ส.ส. ในสภา'">
                       <li>
-                        <b
-                          >ในประสบการณ์อาชีพเดิมส่วนใหญ่ เป็น ส.ส.
+                        <b>ในประสบการณ์อาชีพเดิมส่วนใหญ่ เป็น ส.ส.
                           มาก่อนอยู่แล้ว
-                          รองลงมาเป็นนักธุรกิจและทำงานราชการต่างๆ</b
-                        >
+                          รองลงมาเป็นนักธุรกิจและทำงานราชการต่างๆ</b>
                       </li>
                     </template>
-                    <template
-                      v-else-if="
-                        item.title == 'เครือข่ายทางการเมืองของ ส.ส. ในสภา'
-                      "
-                    >
+                    <template v-else-if="
+                      item.title == 'เครือข่ายทางการเมืองของ ส.ส. ในสภา'
+                    ">
                       <li>
-                        <b
-                          >จากข้อมูลพบว่าส.ส.ในสภามีเครือข่ายทางการเมืองผ่านตระกูลถึง
-                          38.4 %</b
-                        >
+                        <b>จากข้อมูลพบว่าส.ส.ในสภามีเครือข่ายทางการเมืองผ่านตระกูลถึง
+                          38.4 %</b>
                       </li>
                     </template>
-                    <template
-                      v-else-if="
-                        item.title ==
-                        'ส.ส. เขต ควรจะต้องอาศัยอยู่ที่ลงสมัครไหม?'
-                      "
-                    >
+                    <template v-else-if="
+                      item.title ==
+                      'ส.ส. เขต ควรจะต้องอาศัยอยู่ที่ลงสมัครไหม?'
+                    ">
                       <li>
-                        <b
-                          >ส.ส.เขต
+                        <b>ส.ส.เขต
                           ถูกกำหนดคุณสมบัติให้อย่างน้อยต้องมีชื่ออยู่ในทะเบียนบ้านในจังหวัดที่สมัคร
                           เกิด ศึกษา หรือทำงานในจังหวัดที่ลงสมัคร
-                          อย่างใดอย่างหนึ่ง</b
-                        >
+                          อย่างใดอย่างหนึ่ง</b>
                       </li>
                     </template>
                   </ul>
@@ -198,15 +156,14 @@
 
 <script>
 import firebase from "firebase";
-import * as mp_data from "~/assets/data/mp_pro.json";
 
 const quiz_result =
   "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Mp-Checklist";
 
 let config = {
   headers: {
-    "xc-auth":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIsc3VwZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMjQwMjVmZWQ0Y2E3MTQ1ODQxYTc0YTEzMTFlNTA2ODU0OGJlNmRmMzZiYmFlMmYwYjI5OGVlZjUwYzc4NjJmMTNkNGZiNDUwNmUxODEzOGMiLCJpYXQiOjE2NzY4NzczMzUsImV4cCI6MTY3NjkxMzMzNX0.afYtSO9ShYEa3RCdrEiSgPVa4xL5d968BmK2-H3JnLo",
+    "xc-token":
+      "dzDdGV8Ounbk5KIrhhsoGnYEj4VsqWPD6MsvSz8k",
     "Content-Type": "application/json",
   },
 };
@@ -548,8 +505,8 @@ export default {
           await this.$axios
             .$get(
               quiz_result +
-                "?sort=Firstname&limit=100&shuffle=0&offset=" +
-                i * 100,
+              "?sort=Firstname&limit=100&shuffle=0&offset=" +
+              i * 100,
               config
             )
             .then((response) => {
@@ -575,11 +532,22 @@ export default {
             el2.title != "ไม่จำเป็น"
           ) {
             if (el2.header == "EducationField" || el2.header == "Work") {
+              var filter_list = ['law', 'politics', 'public_admin', 'business', 'education', 'other']
+              var field = "";
+              var total = 0;
+
+              filter_list.forEach((element, i) => {
+                total += this.noco_data.filter(
+                  (o) =>
+                    o[el2.header] != null && o[el2.header].includes(filter_list[i])
+                ).length
+              });
+
               el2.total =
                 this.noco_data.filter(
                   (o) =>
                     o[el2.header] != null && o[el2.header].includes(el2.filter)
-                ).length / this.noco_data.length;
+                ).length / total;
             } else {
               el2.total =
                 this.noco_data.filter((x) => x[el2.header] == el2.filter)
@@ -676,6 +644,7 @@ export default {
   background: #000000;
   padding: 100px 0;
 }
+
 .intro-box {
   max-width: 620px;
   border-radius: 5px;
@@ -688,7 +657,7 @@ export default {
 }
 
 .dashboard-box {
-  max-width: 900px;
+  max-width: 950px;
   margin: auto;
 
   .list {

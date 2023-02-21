@@ -138,6 +138,13 @@ body {
     font-size: 12px;
   }
 }
+.header-13 {
+  font-size: 12px;
+  //line-height: 140%;
+  @media #{$mq-mini-mobile} {
+    font-size: 10px;
+  }
+}
 
 // ------------ color ----------------
 .black {

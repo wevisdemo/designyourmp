@@ -1,17 +1,14 @@
 <template>
   <div id="quiz-1-wrapper">
-    <div
-      id="quiz-1"
-      class="
-        h-100vh
-        bg-main
-        intro
-        d-flex
-        justify-content-center
-        align-items-center
-        px-3
-      "
-    >
+    <div id="quiz-1" class="
+                h-100vh
+                bg-main
+                intro
+                d-flex
+                justify-content-center
+                align-items-center
+                px-3
+              ">
       <div class="content text-center">
         <h4 class="header-4 text-white">
           บอกหน่อย.. <br />
@@ -25,19 +22,10 @@
       </div>
     </div>
     <div class="min-h-screen position-relative text-center">
-      <div
-        class="d-flex menu-box justify-content-center flex-wrap"
-        :class="{ faded_choose: $store.state.isAnsQuiz1 }"
-      >
-        <div
-          v-for="(item, i) in menu"
-          :key="i"
-          class="menu"
-          :class="[
-            { active: menu_active == item, 'noclick faded': isShowConfirm },
-          ]"
-          @click="selectMenu(item, i)"
-        >
+      <div class="d-flex menu-box justify-content-center flex-wrap" :class="{ faded_choose: $store.state.isAnsQuiz1 }">
+        <div v-for="(item, i) in menu" :key="i" class="menu" :class="[
+          { active: menu_active == item, 'noclick faded': isShowConfirm },
+        ]" @click="selectMenu(item, i)">
           <p class="header-11 m-0">{{ item }}</p>
         </div>
       </div>
@@ -52,18 +40,14 @@
         </div>
       </div>
       <b-row class="min-h-screen bg-black-2" no-gutters>
-        <b-col
-          :class="{ faded: isShowConfirm }"
-          lg="6"
-          class="
-            bg-black-2
-            d-flex
-            justify-content-center
-            align-items-center
-            text-white
-            position-relative
-          "
-        >
+        <b-col :class="{ faded: isShowConfirm }" lg="6" class="
+                    bg-black-2
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    text-white
+                    position-relative
+                  ">
           <div class="popup" v-if="data.length == 0">
             <b-row class="align-items-center" no-gutters>
               <b-col cols="4"><img :src="alert_icon" alt="" /></b-col>
@@ -80,11 +64,7 @@
             <p class="header-10">ส.ส. ในสภา<br />ที่ตรงกับความต้องการ</p>
             <div class="people-box d-flex flex-wrap my-3 my-lg-5">
               <div v-for="item in data" class="people"></div>
-              <div
-                v-for="item in fade_ppl"
-                class="people faded"
-                v-if="fade_ppl != 0"
-              ></div>
+              <div v-for="item in fade_ppl" class="people faded" v-if="fade_ppl != 0"></div>
             </div>
 
             <p class="header-11">
@@ -92,11 +72,8 @@
             </p>
           </div>
         </b-col>
-        <b-col
-          :class="{ faded: isShowConfirm }"
-          lg="6"
-          class="bg-black d-flex justify-content-center align-items-center"
-          ><div class="question-box">
+        <b-col :class="{ faded: isShowConfirm }" lg="6" class="bg-black d-flex justify-content-center align-items-center">
+          <div class="question-box">
             <p class="header-10 text-white mb-3">
               ออกแบบ ส.ส. ตามที่คุณต้องการ
             </p>
@@ -106,17 +83,12 @@
               </p>
 
               <div :class="{ faded_choose: $store.state.isAnsQuiz1 }">
-                <div
-                  v-for="(item, i) in current_quiz.ans"
-                  class="choice mb-2"
-                  @click="answer(item, i)"
-                  :class="[
-                    {
-                      'bg-blue': current_quiz.current_ans == item,
-                      noclick: isShowConfirm,
-                    },
-                  ]"
-                >
+                <div v-for="(item, i) in current_quiz.ans" class="choice mb-2" @click="answer(item, i)" :class="[
+                  {
+                    'bg-blue': current_quiz.current_ans == item,
+                    noclick: isShowConfirm,
+                  },
+                ]">
                   <p class="header-8 m-0">{{ item }}</p>
                   <p class="header-10 m-0" v-if="item == 'สายกฎหมาย'">
                     (เช่น ทนายความ, อัยการ, ผู้พิพากษา, นิติกร,
@@ -125,39 +97,34 @@
                   <p class="header-10 m-0" v-else-if="item == 'สายการเมือง'">
                     (เช่น ส.ส., นายกอปท., สภาอปท. , รัฐมนตรี)
                   </p>
-                  <p
-                    class="header-10 m-0"
-                    v-else-if="item == 'สายบริหารงานภาครัฐ'"
-                  >
+                  <p class="header-10 m-0" v-else-if="item == 'สายบริหารงานภาครัฐ'">
                     (เช่น ผู้ว่าราชการจังหวัด, นายอำเภอ, ปลัดอำเภอ,
                     ข้าราชการพลเรือนสามัญ)
                   </p>
                 </div>
-              </div></template
-            >
+              </div>
+            </template>
           </div>
         </b-col>
       </b-row>
     </div>
     <div class="h-100vh1 bg-main result" v-if="isShowResult" id="result-quiz-1">
-      <div
-        class="
-          result-box
-          text-center
-          min-h-screen
-          d-flex
-          justify-content-center
-          align-items-center
-        "
-      >
+      <div class="
+                  result-box
+                  text-center
+                  min-h-screen
+                  d-flex
+                  justify-content-center
+                  align-items-center
+                ">
         <div>
           <h4 class="header-5 font-weight-bold kondolar">
             คุณสมบัติที่คุณเลือก{{
               result_list.length != 0
-                ? "ใกล้เคียงกับ ส.ส. ที่มีอยู่ " +
-                  result_list.length +
-                  " คน ดังนี้"
-                : "ไม่ใกล้เคียงกับ ส.ส. คนไหนในสภานี้เลย"
+              ? "ใกล้เคียงกับ ส.ส. ที่มีอยู่ " +
+              result_list.length +
+              " คน ดังนี้"
+              : "ไม่ใกล้เคียงกับ ส.ส. คนไหนในสภานี้เลย"
             }}
           </h4>
           <h5 class="header-6 font-weight-bold kondolar">
@@ -170,47 +137,27 @@
           </p>
           <b-row class="result-box-content">
             <b-col lg="6">
-              <div
-                class="d-flex flex-wrap people-box-result-wrapper"
-                v-if="result_list.length != 0"
-              >
+              <div class="d-flex flex-wrap people-box-result-wrapper" v-if="result_list.length != 0">
                 <div v-for="item in result_list" class="people-box-result p-1">
-                  <img
-                    :src="getImgUrl(`${item.Firstname}-${item.Lastname}`)"
-                    :alt="`${item.Firstname}-${item.Lastname}`"
-                    :id="'person-' + item.Index"
-                    class="politician-img"
-                  />
-                  <b-popover
-                    :target="'person-' + item.Index"
-                    triggers="hover"
-                    placement="top"
-                  >
+                  <img :src="getImgUrl(`${item.Firstname}-${item.Lastname}`)" :alt="`${item.Firstname}-${item.Lastname}`"
+                    :id="'person-' + item.Index" class="politician-img" />
+                  <b-popover :target="'person-' + item.Index" triggers="hover" placement="top">
                     <p class="header-9 m-0 font-weight-bold">
                       {{ item.Firstname }} {{ item.Lastname }}
                     </p>
                     <p class="header-11 m-0">พรรค {{ item.Party }}</p>
                     <p class="header-11 m-0">ประเภท ส.ส. {{ item.Position }}</p>
 
-                    <a
-                      :href="
-                        'https://theyworkforus.wevis.info/people/' +
-                        item.Firstname +
-                        '-' +
-                        item.Lastname
-                      "
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="header-11"
-                      >ผลงาน</a
-                    >
+                    <a :href="
+                      'https://theyworkforus.wevis.info/people/' +
+                      item.Firstname +
+                      '-' +
+                      item.Lastname
+                    " target="_blank" rel="noopener noreferrer" class="header-11">ผลงาน</a>
                   </b-popover>
                 </div>
               </div>
-              <div
-                class="d-flex justify-content-center align-items-center h-100"
-                v-else
-              >
+              <div class="d-flex justify-content-center align-items-center h-100" v-else>
                 <div>
                   <img :src="illus_cry" alt="" />
                 </div>
@@ -219,41 +166,32 @@
             <b-col lg="6" class="text-center header-9">
               <p class="font-weight-bold">คุณสมบัติที่คุณอยากเห็น</p>
               <div class="ans-choice">
-                <span v-if="quiz[0].current_ans != 'ไม่กำหนดอายุ'"
-                  >อายุของ ส.ส. ควรอยู่ในช่วง
-                  <b>{{ quiz[0].current_ans }}</b> ปี</span
-                >
+                <span v-if="quiz[0].current_ans != 'ไม่กำหนดอายุ'">อายุของ ส.ส. ควรอยู่ในช่วง
+                  <b>{{ quiz[0].current_ans }}</b> ปี</span>
                 <span v-else>ไม่กำหนดอายุของ ส.ส.</span>
               </div>
               <div class="ans-choice">
-                <span v-if="quiz[1].current_ans != 'ไม่กำหนด'"
-                  >ระดับการศึกษาของ ส.ส. ควรอยู่ในช่วง<b>{{
-                    quiz[1].current_ans
-                  }}</b></span
-                >
+                <span v-if="quiz[1].current_ans != 'ไม่กำหนด'">ระดับการศึกษาของ ส.ส. ควรอยู่ในช่วง<b>{{
+                  quiz[1].current_ans
+                }}</b></span>
                 <span v-else>ไม่กำหนดระดับการศึกษา</span>
               </div>
               <div class="ans-choice">
-                <span v-if="quiz[2].current_ans != 'จบสาขาใดมาก็ได้'"
-                  >จบการศึกษา<b>{{ quiz[2].current_ans }}</b></span
-                >
+                <span v-if="quiz[2].current_ans != 'จบสาขาใดมาก็ได้'">จบการศึกษา<b>{{ quiz[2].current_ans }}</b></span>
                 <span v-else>จบสาขาใดมาก็ได้</span>
               </div>
               <div class="ans-choice">
-                <span v-if="quiz[3].current_ans != 'สายใดมาก็ได้'"
-                  >อาชีพเดิมต้องทำงาน<b>{{ quiz[3].current_ans }}</b></span
-                >
+                <span v-if="quiz[3].current_ans != 'สายใดมาก็ได้'">อาชีพเดิมต้องทำงาน<b>{{ quiz[3].current_ans
+                }}</b></span>
                 <span v-else>สายใดมาก็ได้</span>
               </div>
               <div class="ans-choice">
                 <b v-if="quiz[4].current_ans == 'ไม่มี'">ไม่</b>
-                <b v-if="quiz[4].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
-                >ต้องมีเครือข่ายทางการเมือง
+                <b v-if="quiz[4].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b>ต้องมีเครือข่ายทางการเมือง
               </div>
               <div class="ans-choice">
                 <b v-if="quiz[5].current_ans == 'ไม่มี'">ไม่</b>
-                <b v-if="quiz[5].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b
-                >ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
+                <b v-if="quiz[5].current_ans == 'ไม่จำเป็น'">ไม่จำเป็น</b>ต้องอาศัยอยู่ในจังหวัดที่ลงสมัคร
               </div>
             </b-col>
           </b-row>
@@ -263,44 +201,29 @@
             <div class="d-flex justify-content-center align-items-center">
               <p class="header-11 m-0">Share</p>
 
-              <ShareNetwork
-                network="facebook"
-                title=""
-                :url="
-                  result_list.length > 500
-                    ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
-                    : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                      result_list.length
-                "
-                class="share-btn pointer text-1 mx-2"
-              >
+              <ShareNetwork network="facebook" title="" :url="
+                result_list.length > 500
+                  ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
+                  : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                  result_list.length
+              " class="share-btn pointer text-1 mx-2">
                 <img :src="facebook" alt="facebook" />
               </ShareNetwork>
 
-              <ShareNetwork
-                network="twitter"
-                title=""
-                :url="
-                  result_list.length > 500
-                    ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
-                    : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                      result_list.length
-                "
-                class="share-btn pointer text-1 mx-2"
-              >
+              <ShareNetwork network="twitter" title="" :url="
+                result_list.length > 500
+                  ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
+                  : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                  result_list.length
+              " class="share-btn pointer text-1 mx-2">
                 <img :src="twitter" alt="twitter" />
               </ShareNetwork>
-              <ShareNetwork
-                network="line"
-                title=""
-                :url="
-                  result_list.length > 500
-                    ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
-                    : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
-                      result_list.length
-                "
-                class="share-btn pointer text-1 mx-2"
-              >
+              <ShareNetwork network="line" title="" :url="
+                result_list.length > 500
+                  ? 'https://wevisdemo.github.io/qualification-of-representative/ogimage/501'
+                  : 'https://wevisdemo.github.io/qualification-of-representative/ogimage/' +
+                  result_list.length
+              " class="share-btn pointer text-1 mx-2">
                 <img :src="line" alt="line" />
               </ShareNetwork>
             </div>
@@ -317,13 +240,12 @@ const quiz_result =
 
 let config = {
   headers: {
-    "xc-auth":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQHB1bmNodXAud29ybGQiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsLCJpZCI6IjEiLCJyb2xlcyI6InVzZXIsc3VwZXIiLCJ0b2tlbl92ZXJzaW9uIjoiMjQwMjVmZWQ0Y2E3MTQ1ODQxYTc0YTEzMTFlNTA2ODU0OGJlNmRmMzZiYmFlMmYwYjI5OGVlZjUwYzc4NjJmMTNkNGZiNDUwNmUxODEzOGMiLCJpYXQiOjE2NzY4NzczMzUsImV4cCI6MTY3NjkxMzMzNX0.afYtSO9ShYEa3RCdrEiSgPVa4xL5d968BmK2-H3JnLo",
+    "xc-token":
+      "dzDdGV8Ounbk5KIrhhsoGnYEj4VsqWPD6MsvSz8k",
     "Content-Type": "application/json",
   },
 };
 
-import * as mp_data from "~/assets/data/mp_pro.json";
 import firebase from "firebase";
 import { mapState } from "vuex";
 
@@ -476,8 +398,8 @@ export default {
           await this.$axios
             .$get(
               quiz_result +
-                "?sort=Firstname&limit=100&shuffle=0&offset=" +
-                i * 100,
+              "?sort=Firstname&limit=100&shuffle=0&offset=" +
+              i * 100,
               config
             )
             .then((response) => {
@@ -785,6 +707,7 @@ export default {
     background-image: unset;
   }
 }
+
 .go_down {
   position: absolute;
   bottom: 60px;
@@ -921,6 +844,7 @@ export default {
 .noclick {
   pointer-events: none;
 }
+
 .people-box-result {
   width: 19%;
 
