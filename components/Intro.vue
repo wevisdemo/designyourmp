@@ -82,7 +82,7 @@
               class="circle"
               id="choice-1"
               @click="showQuiz(1)"
-              :class="{ faded_choose: quiz_choice != 0 && quiz_choice != 1 }"
+              :class="{ faded_choose: quiz_choice != 0 && quiz_choice != 1 && quiz_choice != 3 }"
             >
               <img :src="choice_1" alt="choice_1" />
               <div class="content">
@@ -99,7 +99,7 @@
               class="circle"
               id="choice-2"
               @click="showQuiz(2)"
-              :class="{ faded_choose: quiz_choice != 0 && quiz_choice != 2 }"
+              :class="{ faded_choose: quiz_choice != 0 && quiz_choice != 2 && quiz_choice != 3}"
             >
               <img :src="choice_2" alt="choice_2" />
               <div class="content">
@@ -146,8 +146,10 @@ export default {
 
       if (choice == 1) {
         this.$store.commit("setShowQuiz1", true);
+        this.$store.commit("setShowQuiz2", false);
       } else {
         this.$store.commit("setShowQuiz2", true);
+        this.$store.commit("setShowQuiz1", false);
       }
 
       if (choice != 3)
