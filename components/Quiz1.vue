@@ -236,7 +236,7 @@
 
 <script>
 const quiz_result =
-  "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Mp-Checklist";
+  "https://sheets.wevis.info/api/v1/db/data/v1/Design-Your-MP/Mp-Checklist-New";
 
 let config = {
   headers: {

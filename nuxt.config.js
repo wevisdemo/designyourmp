@@ -1,4 +1,4 @@
-const BASE_URL = "https://wevisdemo.github.io/qualification-of-representative/";
+const BASE_URL = "https://wevisdemo.github.io/designyourmp/";
 const array = [];
 
 for (var i = 0; i <= 501; i++) {
@@ -26,7 +26,7 @@ export default {
   },
 
   router: {
-    base: '/qualification-of-representative/',
+    base: '/designyourmp/',
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
