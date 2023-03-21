@@ -861,7 +861,7 @@ export default {
 
 .people-box-result-wrapper {
   overflow-y: scroll;
-  height: 365px;
+  max-height: 365px;
 }
 
 .people-box-result-wrapper::-webkit-scrollbar {
